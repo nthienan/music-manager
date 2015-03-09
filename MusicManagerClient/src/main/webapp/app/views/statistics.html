@@ -1,0 +1,108 @@
+<div class="row">
+	<div class="col-lg-4 col-md-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="glyphicon glyphicon-music glyphicon-bigger"></i>
+					</div>
+					<div class="col-xs-9 text-right">
+						<span class="huge">{{stats.totalSongs}} </span>Song.
+					</div>
+				</div>
+			</div>
+			<a style="cursor: pointer;">
+				<div class="panel-footer">
+					<span class="pull-left">View Details</span> <span
+						class="pull-right"><i
+						class="glyphicon glyphicon-circle-arrow-right"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-4 col-md-4">
+		<div class="panel panel-green">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="glyphicon glyphicon-equalizer glyphicon-bigger"></i>
+					</div>
+					<div class="col-xs-9 text-right">
+						<span class="huge">{{stats.totalViewOfSongs}} </span>Listen.
+					</div>
+				</div>
+			</div>
+			<a style="cursor: pointer;">
+				<div class="panel-footer">
+					<span class="pull-left">View Details</span> <span
+						class="pull-right"><i
+						class="glyphicon glyphicon-circle-arrow-right"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-4 col-md-4">
+		<div class="panel panel-yellow">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="glyphicon glyphicon-download-alt glyphicon-bigger"></i>
+					</div>
+					<div class="col-xs-9 text-right">
+						<span class="huge">{{stats.totalDownLoadOfSongs}} </span>Download.
+					</div>
+				</div>
+			</div>
+			<a style="cursor: pointer;">
+				<div class="panel-footer">
+					<span class="pull-left">View Details</span> <span
+						class="pull-right"><i
+						class="glyphicon glyphicon-circle-arrow-right"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6 col-md-6">
+		<div class="panel panel-green">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-12">
+						<span class="huge">{{stats.songNameMaxView}} </span>
+						<p class="text-right">Most Listened.</p>
+					</div>
+				</div>
+			</div>
+			<a style="cursor: pointer;" ng-click="listen(stats.songIdMaxView)">
+				<div class="panel-footer">
+					<span class="pull-left">Listen</span> <span class="pull-right"><i
+						class="glyphicon glyphicon-equalizer"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-6 col-md-6">
+		<div class="panel panel-yellow">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-12">
+						<span class="huge">{{stats.songNameMaxDownLoad}} </span>
+						<p class="text-right">Most Download.</p>
+					</div>
+				</div>
+			</div>
+			<a style="cursor: pointer;" ng-click="download(stats.songIdMaxDownLoad)">
+				<div class="panel-footer">
+					<span class="pull-left">Download</span> <span class="pull-right"><i
+						class="glyphicon glyphicon-download-alt"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>

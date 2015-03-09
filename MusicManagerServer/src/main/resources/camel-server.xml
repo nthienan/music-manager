@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- START SNIPPET: e1 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:broker="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+         http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+	<!-- END SNIPPET: e1 -->
+
+	<import resource="applicationContext.xml" />
+
+	<!-- START SNIPPET: e2 -->
+	<!-- let Spring do its IoC stuff in this package -->
+	<context:component-scan base-package="agu.thesis2015" />
+	<!-- END SNIPPET: e2 -->
+
+
+	<!-- START SNIPPET: e3 -->
+	<!-- declare a camel context that scans for classes that is RouteBuilder 
+		in the package org.apache.camel.example.server -->
+	<camel:camelContext id="camel-server">
+		<camel:package>agu.thesis2015.jms</camel:package>
+		<!-- enable JMX connector so we can connect to the server and browse mbeans -->
+		<!-- Camel will log at INFO level the service URI to use for connecting 
+			with jconsole -->
+		<camel:jmxAgent id="agent" createConnector="true" />
+	</camel:camelContext>
+
+	<!-- <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent"> -->
+	<!-- <property name="brokerURL" value="tcp://192.168.70.170:61616" /> -->
+	<!-- </bean> -->
+
+</beans>

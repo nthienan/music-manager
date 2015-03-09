@@ -1,0 +1,101 @@
+<div class="row panel panel-primary">
+	<div class="panel-heading clearfix">
+		<h3 class="panel-title pull-left">List User</h3>
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" ng-click="addUser()">  
+	           		<i class="glyphicon glyphicon-plus pull-left"></i> 
+	           	</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" ng-click="deleteMulti()" 
+					ng-confirm-click="Are you sure you want to remove selected user?">
+	           		<i class="glyphicon glyphicon-trash pull-left"></i> 
+	           	</button>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body" style="padding: 0">
+		<div class="table-responsive">
+			<table class="table table-hover" style="margin-bottom: 0">
+				<thead>
+					<tr>
+						<th class="col-md-1">No</th>
+						<th class="col-md-2" ng-click="reverse=!reverse;order('username', reverse)">
+							Username&nbsp;&nbsp;&nbsp;
+							<span class="glyphicon" ng-class="username"></span>
+						</th>
+						<th class="col-md-2" ng-click="reverse=!reverse;order('name', reverse)">
+							Name&nbsp;&nbsp;&nbsp;
+							<span class="glyphicon" ng-class="name"></span>
+						</th>
+						<th class="col-md-4">
+							Roles&nbsp;&nbsp;&nbsp;
+							<span class="glyphicon"></span>
+						</th>
+						<th class="col-md-3">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="user in response.content | filter: keyword">
+						<td ng-class="{selected: selectedUser, even: $even}">
+							 <input type="checkbox" id={{song.id}} value={{song.id}} ng-click="select(user.username)" ng-model="selectedUser"/> &nbsp;
+							 <span>{{response.number * response.size + $index + 1}}</span>
+						</td>
+						<td ng-class="{selected: selectedUser, even: $even}" ng-bind-html="user.username | highlight: keyword"></td>
+						<td ng-class="{selected: selectedUser, even: $even}" ng-bind-html="user.fullName | highlight: keyword"></td>
+						<td ng-class="{selected: selectedUser, even: $even}">
+							<label class="checkbox-inline" ng-repeat="r in user.roles">
+								<input type="checkbox" id="{{r}}" value="{{r}}" checked="hasRole(r)" disabled> {{r}}
+								&nbsp;&nbsp;
+							</label>
+						</td>
+						<td ng-class="{selected: selectedUser, even: $even}">
+							<button class="btn btn-default btn-xs" ng-click="editUser(user.username)">
+								<span class="glyphicon glyphicon-pencil"></span> Edit
+							</button>
+							<button class="btn btn-default btn-xs" ng-click="resetPass(user.username)">
+								<span class="glyphicon glyphicon-lock"></span> Reset password
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer" style="background: white">
+		<div class="col-md-6">
+			<div class="row">
+				<b>
+					Total items: {{response.totalElements}}<br/>
+					Total pages: {{response.totalPages}}<br/>
+					Show {{response.number * response.size + 1}} to {{response.number * response.size + response.numberOfElements}}<br />
+				</b>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-5" style="padding: 0">
+					<span class="pull-right" style="line-height: 30px">Page size: </span>
+				</div>
+				<div class="col-md-3">
+					<select class="form-control input-sm" style="width: 75%" ng-model="$root.pageSize" ng-change="load()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+						<option value="500">500</option>
+					</select>
+				</div>
+				<div class="col-md-1" style="padding: 0">
+					<span class="pull-right" style="line-height: 30px">Page: </span>
+				</div>
+				<div class="col-md-3">
+					<input class="form-control input-sm" style="width: 50%" ng-model="$root.pageNumber" ng-change="load()"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

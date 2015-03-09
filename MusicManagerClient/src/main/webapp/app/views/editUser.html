@@ -1,0 +1,61 @@
+<div class="mainbox">
+	<div class="col-md-12 col-sm-12">
+		<div class="row panel panel-primary">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title pull-left">Edit User</h3>
+			</div>
+			<div class="panel-body" style="padding: 0">
+				<div class="table-responsive">
+					<table class="table table-hover" style="margin-bottom: 0; cursor: pointer;">
+						<tbody>
+							<tr>
+								<td colspan="2">
+									<form id="updateAccountForm" class="form-horizontal" name="updateAccountForm" role="form" ng-submit="updateUser()">
+										<div class="form-group has-feedback" ng-class="{'has-success' : updateAccountForm.fullname.$valid, 'has-error' : updateAccountForm.fullname.$invalid && updateAccountForm.fullname.$dirty}"
+											style="margin: 0 0 15px 0">
+											<label for="fullname" class="col-md-2 control-label">Name</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control" name="fullname" placeholder="Full Name"
+													ng-model="editUser.fullName" required>
+												<p ng-show="updateAccountForm.fullname.$error.required && updateAccountForm.fullname.$dirty" class="help-block error-text">Full name is required.</p>
+											</div>
+										</div>
+										<div class="form-group" style="margin: 0 0 15px 0">
+											<div class="col-md-offset-2 col-md-10">
+												<button type="submit" class="btn btn-primary" ng-disabled="updateAccountForm.$invalid">Update</button>
+												<button type="button" class="btn btn-success" ng-click="showList()">Cancel</button>
+											</div>
+										</div>
+									</form>
+								</td>
+							</tr>
+							<tr>
+								<td class="col-md-3 col-sm-3">Username:</td>
+								<td class="col-md-9 col-sm-9">{{editUser.username}}</td>
+							</tr>
+							<tr>
+								<td>Role:</td>
+								<td>
+									<label class="checkbox-inline" ng-repeat="r in editUser.roles">
+										<input type="checkbox" id="{{r}}" value="{{r}}" checked="hasRole(r)" disabled> {{r}}
+										&nbsp;&nbsp;
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>Password:</td>
+								<td>
+									<button type="button" class="btn btn-link" style="padding: 0" disabled>Reset password</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="panel-footer" style="background: white">
+				<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 5px" ng-click="deleteOne(editUser.username)"
+					ng-confirm-click="Are you sure you want to remove user {{editUser.username}}?">Delete account</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,49 @@
+<div class="row panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Add new song</h3>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" role="form" enctype="multipart/form-data" name="formUpload" ng-submit="create()">
+			<div class="form-group">
+				<label for="name" class="col-md-2 control-label">Name</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" id="name" name="name" required
+						ng-model="formData.name" ng-trim="true" placeholder="Enter Name" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="gener" class="col-md-2 control-label">Gener</label>
+				<div class="col-md-10"> 
+					<input type="text" class="form-control" id="gener" name="gener" required
+						ng-model="formData.gener" ng-trim="true" placeholder="Enter Gener" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="artist" class="col-md-2 control-label">Artist</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" id="artist" name="artist" required
+						ng-model="formData.artist" ng-trim="true" placeholder="Enter Artist" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="musician" class="col-md-2 control-label">Musician</label>
+				<div class="col-md-10"> 
+					<input type="text" class="form-control" id="musician" name="musician" required
+						ng-model="formData.musician" ng-trim="true" placeholder="Enter Musician" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<input type="file" name="file" ng-model="formData.file"/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<button type="submit" class="btn btn-primary pull-right">Add</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

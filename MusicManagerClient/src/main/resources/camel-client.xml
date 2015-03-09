@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<camel:camelContext id="camel-client">
+	</camel:camelContext>
+
+	<!-- spring property placeholder, ignore resource not found as the file 
+		resource is for unit testing -->
+	<context:property-placeholder location="classpath:/jsmConfig.properties" />
+
+	<!-- Camel JMSProducer to be able to send messages to a remote Active MQ 
+		server -->
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="${transportUri}" />
+	</bean>
+
+</beans>

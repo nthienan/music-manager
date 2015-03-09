@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http realm="Protected API" use-expressions="true"
+		entry-point-ref="restAuthenticationEntryPoint">
+		<intercept-url pattern="/api/user/authenticate/**"
+			access="permitAll" />
+		<intercept-url pattern="/api/user/regis" access="permitAll" />
+		<intercept-url pattern="/api/user/all" access="hasRole('ROLE_ADMIN')" />
+			<intercept-url pattern="/api/user" method="PUT" access="isFullyAuthenticated()" />
+		<intercept-url pattern="/api/user" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/api/**" access="isFullyAuthenticated()" />
+
+		<form-login authentication-failure-handler-ref="authenticationFailureHandler"
+			authentication-success-handler-ref="authenticationSuccessHandler" />
+		<logout logout-url="/api/logout" delete-cookies="JSESSIONID" />
+		<!-- <logout /> -->
+
+		<!-- enable remember me. expire 14 day -->
+		<remember-me key="rememberMeKey" services-ref="persistentTokenBasedRememberMeServices" />
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailService">
+			<!-- <password-encoder hash="bcrypt" /> -->
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

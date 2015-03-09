@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Music Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css"
+	href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+</head>
+<body ng-app="musicManagerApp" ng-controller="mainCtrl">
+	<div class="wrapper">
+		<div class="box">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<!-- sidebar -->
+				<div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar"
+					ng-show="authenticated">
+
+					<ul class="nav">
+						<li><a href="#" data-toggle="offcanvas"
+							class="visible-xs text-center"><i
+								class="glyphicon glyphicon-chevron-right"></i></a></li>
+					</ul>
+
+					<ul class="nav hidden-xs" id="lg-menu" style="margin-top: 40px;">
+						<li>
+							<button type="button" class="btn btn-link" ng-click="showList()"
+								style="width: 100%">
+								<i class="glyphicon glyphicon-list pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;List</span>
+							</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-link" ng-click="addSong()"
+								style="width: 100%">
+								<i class="glyphicon glyphicon-music pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Add New Song</span>
+							</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-link" style="width: 100%">
+								<i class="glyphicon glyphicon-refresh pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Refresh</span>
+							</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-link" ng-click="setting()"
+								style="width: 100%">
+								<i class="glyphicon glyphicon-user pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Manage account</span>
+							</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-link"
+								ng-click="statistics()" style="width: 100%">
+								<i class="glyphicon glyphicon-stats pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Statistics</span>
+							</button>
+						</li>
+					</ul>
+					<ul class="list-unstyled hidden-xs" id="sidebar-footer">
+						<li><a href=""><h4>Music Manager</h4> <i
+								class="glyphicon glyphicon-music"></i> thesis 2015</a></li>
+					</ul>
+
+					<!-- tiny only nav-->
+					<ul class="nav visible-xs" id="xs-menu">
+						<li><button type="button" class="btn btn-link text-center"
+								ng-click="showList()" style="width: 100%">
+								<i class="glyphicon glyphicon-list"></i>
+							</button></li>
+						<li><button type="button" class="btn btn-link text-center"
+								ng-click="addSong()" style="width: 100%">
+								<i class="glyphicon glyphicon-music"></i>
+							</button></li>
+						<li><button type="button" class="btn btn-link text-center"
+								style="width: 100%">
+								<i class="glyphicon glyphicon-refresh"></i>
+							</button></li>
+						<li><button type="button" class="btn btn-link text-center"
+								ng-click="setting()" style="width: 100%">
+								<i class="glyphicon glyphicon-user"></i>
+							</button></li>
+						<li><button type="button" class="btn btn-link text-center"
+								ng-click="statistics()" style="width: 100%">
+								<i class="glyphicon glyphicon-stats"></i>
+							</button></li>
+					</ul>
+
+				</div>
+				<!-- /sidebar -->
+
+				<!-- main right col -->
+				<div class="column" id="main"
+					ng-class="{'col-sm-10' : authenticated, 'col-xs-11' : authenticated}">
+
+					<!-- top nav -->
+					<div class="navbar navbar-blue navbar-static-top"
+						ng-show="authenticated">
+						<div class="navbar-header">
+							<button class="navbar-toggle" type="button"
+								data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle</span> <span class="icon-bar"></span>
+								<span class="icon-bar"></span> <span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand logo">m</a>
+						</div>
+						<nav class="collapse navbar-collapse" role="navigation">
+							<form class="navbar-form navbar-left" style="width: 300px">
+								<div class="input-group input-group-sm" style="width: 100%">
+									<input type="text" class="form-control" placeholder="Search"
+										name="srch-term" id="srch-term" ng-model="keyword"
+										ng-change="search()">
+									<div class="input-group-btn">
+										<button class="btn btn-default" type="submit"
+											ng-click="search()">
+											<i class="glyphicon glyphicon-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+							<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
+								<li class="dropdown"><a href="" class="dropdown-toggle"
+									data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
+									<ul class="dropdown-menu">
+										<li><a ng-click="setting()">Manage account</a></li>
+										<li><a ng-click="logout()">Logout</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+					<!-- /top nav -->
+
+					<div class="padding">
+						<div class="full col-sm-9">
+							<div class="row">
+								<div ng-view></div>
+							</div>
+						</div>
+						<!-- /padding -->
+					</div>
+					<!-- /main -->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="libs/scripts.js"></script>
+		<script type="text/javascript" src="libs/angular.min.js"></script>
+		<script type="text/javascript" src="libs/angular-route.min.js"></script>
+		<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
+		<script type="text/javascript" src="libs/angular-cookies.min.js"></script>
+		<script type="text/javascript" src="libs/app.js"></script>
+	</div>
+</body>
+</html>
