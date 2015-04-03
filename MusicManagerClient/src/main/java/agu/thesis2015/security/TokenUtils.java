@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.security;
 
 import java.security.MessageDigest;
@@ -6,10 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
 
-/**
- * @author nthienan
- *
- */
 public class TokenUtils {
 	public static final String MAGIC_KEY = "nth!3n@N";
 

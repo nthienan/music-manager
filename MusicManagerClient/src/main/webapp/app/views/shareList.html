@@ -1,13 +1,7 @@
 <!-- list song -->
 <div class="row panel panel-primary">
 	<div class="panel-heading clearfix">
-		<h3 class="panel-title pull-left">My Music</h3>
-		<div class="btn-group pull-right">
-			<button type="button" class="btn btn-sm btn-success" ng-click="deleteMulti()" 
-				ng-confirm-click="Are you sure you want to remove selected song?">
-           		<i class="glyphicon glyphicon-trash pull-left"></i> 
-           	</button>
-		</div>
+		<h3 class="panel-title pull-left">Share With Me</h3>
 	</div>
 	<div class="panel-body" style="padding: 0">
 		<div class="table-responsive">
@@ -35,15 +29,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="song in $root.songResponse.content | filter: keyword">
+					<tr ng-repeat="song in $root.shareResponse.content | filter: keyword">
 						<td ng-class="{selected: selectedSong, even: $even}">
 							 <input type="checkbox" id={{song.id}} value={{song.id}} ng-click="select(song.id)" ng-model="selectedSong"/> &nbsp;
-							 <span>{{$root.songResponse.number * $root.songResponse.size + $index + 1}}</span>
+							 <span>{{$root.shareResponse.number * $root.shareResponse.size + $index + 1}}</span>
 						</td>
-						<td ng-class="{selected: selectedSong, even: $even}">
-							<span ng-bind-html="song.name | highlight: keyword"></span>
-							<span ng-show="song.shared" class="tag">Share</span>
-						</td>
+						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.name | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.musician | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.artist | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.gener | highlight: keyword"></td>
@@ -51,8 +42,8 @@
 							<button class="btn btn-default btn-xs" ng-click="playSong(song.id)">
 								<span class="glyphicon glyphicon-play"></span> Play
 							</button>
-							<button class="btn btn-default btn-xs" ng-click="editSong(song.id)">
-								<span class="glyphicon glyphicon-pencil"></span> Edit
+							<button class="btn btn-default btn-xs" ng-click="downloadSong(song.id)">
+								<span class="glyphicon glyphicon-arrow-down"></span> Download
 							</button>
 						</td>
 					</tr>
@@ -64,9 +55,9 @@
 		<div class="col-md-6">
 			<div class="row">
 				<b>
-					Total items: {{$root.songResponse.totalElements}}<br/>
-					Total pages: {{$root.songResponse.totalPages}}<br/>
-					Show {{$root.songResponse.number * $root.songResponse.size + 1}} to {{$root.songResponse.number * $root.songResponse.size + $root.songResponse.numberOfElements}}<br />
+					Total items: {{$root.shareResponse.totalElements}}<br/>
+					Total pages: {{$root.shareResponse.totalPages}}<br/>
+					Show {{$root.shareResponse.number * $root.shareResponse.size + 1}} to {{$root.shareResponse.number * $root.shareResponse.size + $root.shareResponse.numberOfElements}}<br />
 				</b>
 			</div>
 		</div>

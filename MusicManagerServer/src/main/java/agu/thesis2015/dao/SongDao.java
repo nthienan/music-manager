@@ -85,7 +85,8 @@ public interface SongDao {
 	 * @param direction
 	 * @return {@link Response}
 	 */
-	public Response search(String username, String keyword, String field, int page, int size, Direction direction);
+	public Response search(String username, String keyword, String field,
+			int page, int size, Direction direction);
 
 	/**
 	 * Paging a list songs
@@ -98,7 +99,8 @@ public interface SongDao {
 	 * @return {@link Response}
 	 */
 
-	public Response paging(String username, String field, int page, int size, Direction direction);
+	public Response paging(String username, String field, int page, int size,
+			Direction direction);
 
 	/**
 	 * The processor switch method for the message reply
@@ -117,7 +119,7 @@ public interface SongDao {
 	 * @return {@link Response}
 	 */
 
-	public Response countView(String username, String id);
+	public Response countView(String id);
 
 	/**
 	 * Count and increase the filed download
@@ -126,6 +128,14 @@ public interface SongDao {
 	 * @param id
 	 * @return {@link Response}
 	 */
-	public Response countDownLoad(String username, String id);
+	public Response countDownLoad(String id);
+
+	public Response getListSongShard(String field, int page, int size,
+			Direction direction);
+
+	public Response changeStateSong(String username, String id, boolean state);
+
+	public Response fullTextSearch(String username, String keyword, int page,
+			int size);
 
 }

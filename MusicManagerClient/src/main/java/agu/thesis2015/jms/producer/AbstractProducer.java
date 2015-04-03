@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.jms.producer;
 
 import org.apache.camel.CamelContext;

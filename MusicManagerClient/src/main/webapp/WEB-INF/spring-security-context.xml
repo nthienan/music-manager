@@ -9,17 +9,35 @@
 	<http realm="Protected API" use-expressions="true"
 		entry-point-ref="restAuthenticationEntryPoint">
 		<intercept-url pattern="/api/user/authenticate/**"
-			access="permitAll" />
-		<intercept-url pattern="/api/user/regis" access="permitAll" />
-		<intercept-url pattern="/api/user/all" access="hasRole('ROLE_ADMIN')" />
-			<intercept-url pattern="/api/user" method="PUT" access="isFullyAuthenticated()" />
-		<intercept-url pattern="/api/user" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/api/**" access="isFullyAuthenticated()" />
+			access="permitAll" requires-channel="https" />
+		<intercept-url pattern="/api/user/regis" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/api/song/share" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/api/user/all" access="hasRole('ROLE_ADMIN')"
+			requires-channel="https" />
+		<intercept-url pattern="/api/user" method="PUT"
+			access="isFullyAuthenticated()" requires-channel="https" />
+		<intercept-url pattern="/api/user" access="hasRole('ROLE_ADMIN')"
+			requires-channel="https" />
+		<intercept-url pattern="/api/**" access="isFullyAuthenticated()"
+			requires-channel="https" />
 
 		<form-login authentication-failure-handler-ref="authenticationFailureHandler"
 			authentication-success-handler-ref="authenticationSuccessHandler" />
 		<logout logout-url="/api/logout" delete-cookies="JSESSIONID" />
 		<!-- <logout /> -->
+
+		<port-mappings>
+			<!-- Default ports -->
+			<port-mapping http="80" https="443" />
+			<!-- Websphere default ports -->
+			<port-mapping http="9080" https="9443" />
+			<!-- Tomcat default ports -->
+			<port-mapping http="8080" https="8443" />
+			<!-- Jetty custom ports -->
+			<port-mapping http="7777" https="7443" />
+		</port-mappings>
 
 		<!-- enable remember me. expire 14 day -->
 		<remember-me key="rememberMeKey" services-ref="persistentTokenBasedRememberMeServices" />

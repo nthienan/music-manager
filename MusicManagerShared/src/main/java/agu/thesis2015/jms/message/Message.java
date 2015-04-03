@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.jms.message;
 
 import java.io.IOException;
@@ -12,7 +16,7 @@ public class Message {
 	}
 
 	public enum MessageAction {
-		INSERT, UPDATE, DELETE, DELETE_ALL, GET_ALL, GET_BY_ID, SEARCH, PAGING, VIEW, DOWNLOAD, SECURITY, ORTHER
+		INSERT, UPDATE, DELETE, DELETE_ALL, GET_ALL, GET_BY_ID, SEARCH, PAGING, VIEW, SHARE, UNSHARE, DOWNLOAD, SECURITY, ORTHER
 	}
 
 	private MessageMethod method;

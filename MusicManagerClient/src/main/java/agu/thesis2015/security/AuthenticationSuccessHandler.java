@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.security;
 
 import java.io.IOException;

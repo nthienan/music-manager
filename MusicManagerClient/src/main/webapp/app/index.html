@@ -30,7 +30,14 @@
 							<button type="button" class="btn btn-link" ng-click="showList()"
 								style="width: 100%">
 								<i class="glyphicon glyphicon-list pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;List</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;My Music</span>
+							</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-link" ng-click="shareList()"
+								style="width: 100%">
+								<i class="glyphicon glyphicon-share pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Share With Me</span>
 							</button>
 						</li>
 						<li>
@@ -72,6 +79,10 @@
 								ng-click="showList()" style="width: 100%">
 								<i class="glyphicon glyphicon-list"></i>
 							</button></li>
+						<li><button type="button" class="btn btn-link text-center"
+							ng-click="shareList()" style="width: 100%">
+							<i class="glyphicon glyphicon-share"></i>
+						</button></li>
 						<li><button type="button" class="btn btn-link text-center"
 								ng-click="addSong()" style="width: 100%">
 								<i class="glyphicon glyphicon-music"></i>
@@ -123,12 +134,16 @@
 								</div>
 							</form>
 							<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
-								<li class="dropdown"><a href="" class="dropdown-toggle"
-									data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
+								<li class="dropdown">
+									<a href="" class="dropdown-toggle" data-toggle="dropdown">
+										<i class="glyphicon glyphicon-user"></i>
+										{{$root.authenticated ? $root.user.username : ""}}
+									</a>
 									<ul class="dropdown-menu">
 										<li><a ng-click="setting()">Manage account</a></li>
 										<li><a ng-click="logout()">Logout</a></li>
-									</ul></li>
+									</ul>
+								</li>
 							</ul>
 						</nav>
 					</div>
@@ -154,6 +169,18 @@
 		<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
 		<script type="text/javascript" src="libs/angular-cookies.min.js"></script>
 		<script type="text/javascript" src="libs/app.js"></script>
+		<script type="text/javascript" src="libs/mainCtrl.js"></script>
+		<script type="text/javascript" src="libs/loginCtrl.js"></script>
+		<script type="text/javascript" src="libs/songCtrl.js"></script>
+		<script type="text/javascript" src="libs/editSongCtrl.js"></script>
+		<script type="text/javascript" src="libs/userCtrl.js"></script>
+		<script type="text/javascript" src="libs/accountCtrl.js"></script>
+		<script type="text/javascript" src="libs/adminCtrl.js"></script>
+		<script type="text/javascript" src="libs/shareCtrl.js"></script>
+		<script type="text/javascript" src="libs/createUserCtrl.js"></script>
+		<script type="text/javascript" src="libs/editUserCtrl.js"></script>
+		<script type="text/javascript" src="libs/playCtrl.js"></script>
+		<script type="text/javascript" src="libs/statsCtrl.js"></script>
 	</div>
 </body>
 </html>

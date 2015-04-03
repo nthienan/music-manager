@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
 import agu.thesis2015.domain.Song;
@@ -29,63 +31,119 @@ public class SongDaoIml implements SongDao {
 	@Autowired
 	private SongRepo songRepo;
 
-	private Response getResponse(ResponseStatus status, int statuscode, String message, Object response) {
+	private Response getResponse(ResponseStatus status, int statuscode,
+			String message, Object response) {
 		return new Response(status, statuscode, message, response);
 	}
 
 	@Override
 	public String songProcessor(String context) {
-		String response = null;
 		Message message = Message.fromJson(context);
-		RequestData request = RequestData.fromJson(message.getData().toString());
+		MessageAction messageAction = message.getAction();
+		RequestData request = RequestData
+				.fromJson(message.getData().toString());
+
+		String username = "";
+		String id = "";
+		List<String> listId = null;
+		String field = "";
+		int page = 0;
+		int size = 0;
+		String keyword = "";
+		agu.thesis2015.model.RequestData.Direction direction = null;
+		Response response = null;
+
 		switch (message.getMethod()) {
 		case GET: {
-			if (message.getAction().equals(MessageAction.GET_ALL)) {
-				response = getAll(request.getUsername()).toJson();
-			} else if (message.getAction().equals(MessageAction.GET_BY_ID)) {
-				response = getById(request.getUsername(), request.getListId().get(0)).toJson();
-			} else if (message.getAction().equals(MessageAction.PAGING)) {
-				response = paging(request.getUsername(), request.getField(), request.getPage(), request.getSize(), request.getDirection()).toJson();
-			} else if (message.getAction().equals(MessageAction.SEARCH)) {
-				response = search(request.getUsername(), request.getKeyword(), request.getField(), request.getPage(), request.getSize(), request.getDirection())
-						.toJson();
-			} else if (message.getAction().equals(MessageAction.DOWNLOAD)) {
-				response = getSongDownLoad(request.getListId().get(0)).toJson();
+			if (messageAction.equals(MessageAction.GET_ALL)) {
+				username = request.getUsername();
+
+				response = getAll(username);
+			} else if (messageAction.equals(MessageAction.GET_BY_ID)) {
+				username = request.getUsername();
+				id = request.getListId().get(0);
+
+				response = getById(username, id);
+			} else if (messageAction.equals(MessageAction.PAGING)) {
+				username = request.getUsername();
+				field = request.getField();
+				page = request.getPage();
+				size = request.getSize();
+				direction = request.getDirection();
+
+				response = paging(username, field, page, size, direction);
+			} else if (messageAction.equals(MessageAction.SEARCH)) {
+				username = request.getUsername();
+				keyword = request.getKeyword();
+				field = request.getField();
+				page = request.getPage();
+				size = request.getSize();
+				direction = request.getDirection();
+
+				response = search(username, keyword, field, page, size,
+						direction);
+			} else if (messageAction.equals(MessageAction.DOWNLOAD)) {
+				id = request.getListId().get(0);
+
+				response = getSongDownLoad(id);
+			} else if (messageAction.equals(MessageAction.SHARE)) {
+				field = request.getField();
+				page = request.getPage();
+				size = request.getSize();
+				direction = request.getDirection();
+				response = getListSongShard(field, page, size, direction);
 			}
 			break;
 		}
 		case POST: {
-			if (message.getAction().equals(MessageAction.INSERT)) {
-
+			if (messageAction.equals(MessageAction.INSERT)) {
 				Song newSong = Song.fromJson(String.valueOf(message.getData()));
-				response = insert(newSong).toJson();
+				response = insert(newSong);
 			}
 			break;
 		}
 		case PUT: {
-			if (message.getAction().equals(MessageAction.UPDATE)) {
+			if (messageAction.equals(MessageAction.UPDATE)) {
 				Song newSong = Song.fromJson(String.valueOf(message.getData()));
-				response = update(newSong).toJson();
-			} else if (message.getAction().equals(MessageAction.VIEW)) {
-				response = countView(request.getUsername(), request.getListId().get(0)).toJson();
-			} else if (message.getAction().equals(MessageAction.DOWNLOAD)) {
-				response = countDownLoad(request.getUsername(), request.getListId().get(0)).toJson();
+				response = update(newSong);
+			} else if (messageAction.equals(MessageAction.VIEW)) {
+				id = request.getListId().get(0);
+
+				response = countView(id);
+			} else if (messageAction.equals(MessageAction.DOWNLOAD)) {
+				id = request.getListId().get(0);
+
+				response = countDownLoad(id);
+			} else if (messageAction.equals(MessageAction.SHARE)) {
+				username = request.getUsername();
+				id = request.getListId().get(0);
+
+				response = changeStateSong(username, id, true);
+			} else if (messageAction.equals(MessageAction.UNSHARE)) {
+				username = request.getUsername();
+				id = request.getListId().get(0);
+
+				response = changeStateSong(username, id, false);
 			}
 			break;
 		}
 		case DELETE: {
-			if (message.getAction().equals(MessageAction.DELETE_ALL)) {
-				response = deleteAll(request.getUsername()).toJson();
+			if (messageAction.equals(MessageAction.DELETE_ALL)) {
+				username = request.getUsername();
 
-			} else if (message.getAction().equals(MessageAction.DELETE)) {
-				response = delete(request.getUsername(), request.getListId()).toJson();
+				response = deleteAll(username);
+			} else if (messageAction.equals(MessageAction.DELETE)) {
+				username = request.getUsername();
+				listId = request.getListId();
+
+				response = delete(username, listId);
 			}
 			break;
 		}
 		default:
 			break;
 		}
-		return response;
+		return response.toJson();
 	}
 
 	@Override
@@ -93,32 +151,39 @@ public class SongDaoIml implements SongDao {
 		try {
 			String name = newSong.getId();
 			if (name != null && songRepo.exists(name)) {
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "This song is exsits", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"This song is exsits", null);
 			} else {
 				Song s = songRepo.save(newSong);
 				s.setLastUpdate(new Date());
 				songRepo.save(s);
-				return getResponse(ResponseStatus.OK, 200, "Insert success", null);
+				return getResponse(ResponseStatus.OK, 200, "Insert success",
+						null);
 			}
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
 	@Override
 	public Response update(Song newSong) {
 		try {
-			Song song = songRepo.findByUsernameAndId(newSong.getUsername(), newSong.getId());
+			Song song = songRepo.findByUsernameAndId(newSong.getUsername(),
+					newSong.getId());
 			if (song != null) {
 				Song s = songRepo.save(newSong);
 				s.setLastUpdate(new Date());
 				songRepo.save(s);
-				return getResponse(ResponseStatus.OK, 200, "Update success", null);
+				return getResponse(ResponseStatus.OK, 200, "Update success",
+						null);
 			} else {
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "This song isn't exsits", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"This song isn't exsits", null);
 			}
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
@@ -131,11 +196,14 @@ public class SongDaoIml implements SongDao {
 					if (song != null)
 						songRepo.delete(id);
 				}
-				return getResponse(ResponseStatus.OK, 200, "Delete success", null);
+				return getResponse(ResponseStatus.OK, 200, "Delete success",
+						null);
 			} else
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "Delete error", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Delete error", null);
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
@@ -147,11 +215,14 @@ public class SongDaoIml implements SongDao {
 				for (Song song : findByUsername) {
 					songRepo.delete(song);
 				}
-				return getResponse(ResponseStatus.OK, 200, "Delete all success", null);
+				return getResponse(ResponseStatus.OK, 200,
+						"Delete all success", null);
 			} else
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "This user has't any songs", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"This user has't any songs", null);
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
@@ -160,11 +231,14 @@ public class SongDaoIml implements SongDao {
 		try {
 			List<Song> listSong = songRepo.findByUsername(username);
 			if (listSong.size() > 0) {
-				return getResponse(ResponseStatus.OK, 200, "Get list success", listSong);
+				return getResponse(ResponseStatus.OK, 200, "Get list success",
+						listSong);
 			} else
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "Get list error", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Get list error", null);
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
@@ -173,76 +247,165 @@ public class SongDaoIml implements SongDao {
 		try {
 			Song song = songRepo.findByUsernameAndId(username, id);
 			if (song != null) {
-				return getResponse(ResponseStatus.OK, 200, "Get song success", song);
+				return getResponse(ResponseStatus.OK, 200, "Get song success",
+						song);
 			} else {
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "Id isn't exsits", song);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Id isn't exsits", song);
 			}
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
 	@Override
-	public Response search(String username, String keyword, String field, int page, int size, agu.thesis2015.model.RequestData.Direction direction) {
-		Direction sort = direction.equals(agu.thesis2015.model.RequestData.Direction.ASC) ? Direction.ASC : Direction.DESC;
+	public Response search(String username, String keyword, String field,
+			int page, int size,
+			agu.thesis2015.model.RequestData.Direction direction) {
+		Direction sort = direction
+				.equals(agu.thesis2015.model.RequestData.Direction.ASC) ? Direction.ASC
+				: Direction.DESC;
 		Pageable pageRequest = new PageRequest(page, size, sort, field);
 		try {
-			Page<Song> list = songRepo.findAllCriteria(pageRequest, username, keyword);
+			Page<Song> list = songRepo.findAllCriteria(pageRequest, username,
+					keyword);
 			if (list.getContent().size() > 0)
-				return getResponse(ResponseStatus.OK, 200, "Search success", list);
+				return getResponse(ResponseStatus.OK, 200, "Search success",
+						list);
 			else
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, "Search error", list);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Search error", list);
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
 	@Override
-	public Response paging(String username, String field, int page, int size, agu.thesis2015.model.RequestData.Direction direction) {
+	public Response paging(String username, String field, int page, int size,
+			agu.thesis2015.model.RequestData.Direction direction) {
 		try {
-			Direction sort = direction.equals(agu.thesis2015.model.RequestData.Direction.ASC) ? Direction.ASC : Direction.DESC;
-			Page<Song> pageList = songRepo.findByUsername(username, new PageRequest(page, size, sort, field));
+			Direction sort = direction
+					.equals(agu.thesis2015.model.RequestData.Direction.ASC) ? Direction.ASC
+					: Direction.DESC;
+			Page<Song> pageList = songRepo.findByUsername(username,
+					new PageRequest(page, size, sort, field));
 			if (pageList.getContent().size() > 0) {
-				return getResponse(ResponseStatus.OK, 200, "Paging list", pageList);
+				return getResponse(ResponseStatus.OK, 200, "Paging list",
+						pageList);
 			} else {
-				return getResponse(ResponseStatus.BAD_REQUEST, 400, " This list is null", null);
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						" This list is null", null);
 			}
 		} catch (Exception e) {
-			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500, e.getMessage(), null);
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
 		}
 	}
 
 	@Override
-	public Response countView(String username, String id) {
-		Song song = songRepo.findByUsernameAndId(username, id);
+	public Response countView(String id) {
+		Song song = songRepo.findOne(id);
 		if (song != null) {
 			song.setPath(song.getPath());
 			song.setView(song.getView() + 1);
 			songRepo.save(song);
 			return getResponse(ResponseStatus.OK, 200, "View success", song);
 		} else
-			return getResponse(ResponseStatus.BAD_REQUEST, 400, "View error", null);
+			return getResponse(ResponseStatus.BAD_REQUEST, 400, "View error",
+					null);
 	}
 
 	@Override
-	public Response countDownLoad(String username, String id) {
-		Song song = songRepo.findByUsernameAndId(username, id);
+	public Response countDownLoad(String id) {
+		Song song = songRepo.findOne(id);
 		if (song != null) {
 			song.setPath(song.getPath());
 			song.setDownload(song.getDownload() + 1);
 			songRepo.save(song);
 			return getResponse(ResponseStatus.OK, 200, "Download success", song);
 		} else
-			return getResponse(ResponseStatus.BAD_REQUEST, 400, "Download error", null);
+			return getResponse(ResponseStatus.BAD_REQUEST, 400,
+					"Download error", null);
 	}
 
 	@Override
 	public Response getSongDownLoad(String id) {
 		Song song = songRepo.findOne(id);
 		if (song != null) {
-			return getResponse(ResponseStatus.OK, 200, "Get a song for download success", song.toJson());
+			return getResponse(ResponseStatus.OK, 200,
+					"Get a song for download success", song.toJson());
 		} else
-			return getResponse(ResponseStatus.BAD_REQUEST, 400, "et a song for download  error", null);
+			return getResponse(ResponseStatus.BAD_REQUEST, 400,
+					"et a song for download  error", null);
+	}
+
+	@Override
+	public Response getListSongShard(String field, int page, int size,
+			agu.thesis2015.model.RequestData.Direction direction) {
+
+		try {
+			Direction sort = direction
+					.equals(agu.thesis2015.model.RequestData.Direction.ASC) ? Direction.ASC
+					: Direction.DESC;
+			Pageable pageRequest = new PageRequest(page, size, sort, field);
+			Page<Song> pageList = songRepo.findByShared(true, pageRequest);
+			if (pageList.getContent().size() > 0) {
+				return getResponse(ResponseStatus.OK, 200, "Get list success",
+						pageList);
+			} else
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Get list error", null);
+		} catch (Exception e) {
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
+		}
+	}
+
+	@Override
+	public Response changeStateSong(String username, String id, boolean state) {
+		try {
+			Song song = songRepo.findByUsernameAndId(username, id);
+			if (song != null) {
+				song.setShared(state);
+				songRepo.save(song);
+				if (state) {
+					return getResponse(ResponseStatus.OK, 200,
+							"Shared song success", null);
+				} else {
+					return getResponse(ResponseStatus.OK, 200,
+							"Unshared song success", null);
+				}
+			} else {
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Id isn't exsits", song);
+			}
+		} catch (Exception e) {
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
+		}
+	}
+
+	@Override
+	public Response fullTextSearch(String username, String keyword, int page,
+			int size) {
+		Sort sort = new Sort("score");
+		Pageable pageRequest = new PageRequest(page, size, sort);
+		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny(
+				keyword);
+		try {
+			Page<Song> list = songRepo.findAllBy(criteria, pageRequest);
+			if (list.getContent().size() > 0)
+				return getResponse(ResponseStatus.OK, 200, "Search success",
+						list);
+			else
+				return getResponse(ResponseStatus.BAD_REQUEST, 400,
+						"Search error", list);
+		} catch (Exception e) {
+			return getResponse(ResponseStatus.INTERNAL_SERVER_ERROR, 500,
+					e.getMessage(), null);
+		}
 	}
 
 }

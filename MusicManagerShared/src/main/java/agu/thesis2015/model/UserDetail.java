@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.model;
 
 import java.io.IOException;
@@ -14,11 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import agu.thesis2015.domain.User;
 
-/**
- * @author nthienan
- *
- */
 public class UserDetail implements UserDetails {
+
+	private static final long serialVersionUID = -7837718173030440299L;
 	private User user;
 
 	public UserDetail() {
@@ -77,7 +79,7 @@ public class UserDetail implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 	public String toJson() {
 		try {
 			return (new ObjectMapper()).writeValueAsString(this);

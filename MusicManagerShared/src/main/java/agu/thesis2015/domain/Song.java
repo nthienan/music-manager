@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.domain;
 
 import java.io.IOException;
@@ -21,6 +25,7 @@ public class Song {
 	private Date lastUpdate;
 	private int download;
 	private int view;
+	private boolean shared;
 	private String username;
 
 	public Song() {
@@ -44,6 +49,22 @@ public class Song {
 		this.lastUpdate = lastUpdate;
 		this.download = download;
 		this.view = view;
+		this.username = username;
+	}
+
+	public Song(String id, String name, String gener, String artist, String musician, String path, Date lastUpdate, int download, int view, boolean shared,
+			String username) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.gener = gener;
+		this.artist = artist;
+		this.musician = musician;
+		this.path = path;
+		this.lastUpdate = lastUpdate;
+		this.download = download;
+		this.view = view;
+		this.shared = shared;
 		this.username = username;
 	}
 
@@ -125,6 +146,14 @@ public class Song {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public boolean isShared() {
+		return shared;
+	}
+
+	public void setShared(boolean shared) {
+		this.shared = shared;
 	}
 
 	public String toJson() {

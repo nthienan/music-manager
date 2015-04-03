@@ -1,3 +1,7 @@
+/**
+ * @author: nthienan
+ */
+
 package agu.thesis2015.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +19,18 @@ import agu.thesis2015.model.RequestData;
 import agu.thesis2015.model.Response;
 import agu.thesis2015.model.UserDetail;
 
-/**
- * @author nthienan
- *
- */
 @Component
 public class UserDetailService implements UserDetailsService {
 
 	@Autowired
 	private UserProducer producer;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		RequestData requestData = new RequestData();
 		requestData.addId(username);
 		Message message = new Message(MessageMethod.GET, MessageAction.SECURITY, requestData.toJson());
-		
+
 		User user = null;
 		try {
 			Response response = producer.sendAndReceive(message);
