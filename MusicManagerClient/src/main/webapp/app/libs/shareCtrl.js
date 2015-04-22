@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // share controller
-mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $filter, $window) {
+mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $filter, $window, ngProgress) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
 	// sort
@@ -50,26 +50,40 @@ mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $
 
 	// load list
 	$scope.load = function() {
+		ngProgress.start();
 		$http.get('/api/song/share?page=' + ($rootScope.pageNumber - 1) + '&size=' + $rootScope.pageSize)
 			.success(function(data) {
 				$rootScope.shareResponse = data.response;
+				ngProgress.complete();
+			})
+			.error(function(data, status){
+				ngProgress.complete();
 			});
 	};
 	
 	// play
 	$scope.playSong = function(id) {
+		ngProgress.start();
 		$http.put('/api/song/' + id + '/view')
 			.success(function(data) {
 				$location.path('/play-song/' + id);
-		});
+			})
+			.error(function(data, status){
+				ngProgress.complete();
+			});
 	};
 	
 	//download
 	$scope.downloadSong = function(id){
+		ngProgress.start();
 		$http.put('/api/song/' + id + '/download')
 			.success(function(data){
 				$window.open('/api/song/' + id + '/download', '_blank');
-		});
+				ngProgress.complete();
+			})
+			.error(function(data, status){
+				ngProgress.complete();
+			});
 	};
 	
 	$scope.load();

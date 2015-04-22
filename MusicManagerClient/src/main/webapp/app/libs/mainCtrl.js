@@ -46,4 +46,9 @@ mainApp.controller('mainCtrl', function($rootScope, $scope, $http, $location) {
 	$scope.shareList = function() {
 		$location.path('/share');
 	};
+	
+	// redirect to admin view
+	$scope.admin = function() {
+		$location.path('/admin');
+	};
 });

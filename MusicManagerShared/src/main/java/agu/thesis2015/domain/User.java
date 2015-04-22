@@ -5,6 +5,7 @@
 package agu.thesis2015.domain;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,24 +16,37 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Document(collection = "Users")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 6590476795584596333L;
+	
 	@Id
 	private String username;
 	private String password;
 	private Set<String> roles;
 	private String fullName;
+	private String image;
+	private String email;
+	private boolean active;
 
 	public User() {
 	}
 
-	public User(String username, String password, Set<String> roles,
-			String fullName) {
+	public User(String username, String password, Set<String> roles, String fullName, String email) {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
 		this.fullName = fullName;
+		this.email = email;
 	}
 
+	public User(String username, String password, String fullName) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.fullName = fullName;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -65,6 +79,30 @@ public class User {
 		this.fullName = fullName;
 	}
 	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public void addRole(String roleName){
 		if(this.roles == null)
 			roles = new HashSet<String>();

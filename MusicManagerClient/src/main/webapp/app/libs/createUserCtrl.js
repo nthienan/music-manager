@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // create user controller
-mainApp.controller('createUserCtrl', function($scope, $http, $location){
+mainApp.controller('createUserCtrl', function($scope, $http, $location, ngProgress){
 	$scope.selectedRole = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -12,15 +12,30 @@ mainApp.controller('createUserCtrl', function($scope, $http, $location){
 	
 	// create new user
 	$scope.createUser = function(){
+		ngProgress.start();
 		$scope.regisUser.password = $scope.password;
-		$scope.regisUser.roles = $scope.selectedRole;
-		$http.post('/api/user/regis', $scope.regisUser)
-			.success(function(data){
-				$location.path("/admin");
-			})
-			.error(function(data){
-				$scope.error = "Some error while add user. Please try again!";
+		var formData = new FormData();
+		formData.append("username", $scope.regisUser.username);
+		formData.append("password", $scope.regisUser.password);
+		formData.append("fullName", $scope.regisUser.fullName);
+		formData.append("email", $scope.regisUser.email);
+		formData.append("role", $scope.selectedRole);
+		formData.append("avartar", document.forms['signupform'].file.files[0]);
+		
+		$http({
+	        method: 'POST',
+	        url: '/api/user/regis',
+	        headers: {'Content-Type': undefined},
+	        data: formData
+     		})
+     		.success(function(data, status) {   
+     			$location.path("/admin");
+     			ngProgress.complete();
+     		})
+     		.error(function(data){
+     			$scope.error = "Some error while add user. Please try again!";
 				$scope.haveError = true;
+				ngProgress.complete();
 			});
 	};
 	

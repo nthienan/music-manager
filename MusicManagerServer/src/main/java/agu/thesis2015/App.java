@@ -4,8 +4,10 @@ import org.apache.camel.CamelContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import agu.thesis2015.util.Util;
+
 /**
- * Hello world!
+ * @author ltduoc
  *
  */
 public class App {
@@ -17,6 +19,8 @@ public class App {
 		context = new ClassPathXmlApplicationContext("camel-server.xml");
 		final CamelContext camel = context.getBean("camel-server", CamelContext.class);
 		camel.start();
+		Util util = context.getBean("util", Util.class);
+		util.init();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				try {

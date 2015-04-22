@@ -6,17 +6,27 @@
 		<div class="panel-body">
 			<form id="signupform" name="signupform" class="form-horizontal"
 				role="form" ng-submit="createUser()">
+				
+				<div class="form-group has-feedback" ng-class="{'has-success' : signupform.email.$valid, 'has-error' : signupform.email.$invalid && signupform.email.$dirty}">
+					<label for="email" class="col-md-3 control-label">Email</label>
+						<div class="col-md-9">
+							<input type="email" class="form-control" name="email" placeholder="Email Address"
+								ng-model="regisUser.email" ng-minlength="3" required>
+							<p ng-show="signupform.email.$error.required && signupform.email.$dirty" class="help-block error-text">Email address is required.</p>
+							<p ng-show="signupform.email.$error.email" class="help-block error-text">Email address invalid.</p>
+						</div>
+				</div>
 
 				<div class="form-group has-feedback"
-					ng-class="{'has-success' : signupform.email.$valid, 'has-error' : signupform.email.$invalid && signupform.email.$dirty}">
-					<label for="email" class="col-md-3 control-label">User Name</label>
+					ng-class="{'has-success' : signupform.username.$valid, 'has-error' : signupform.username.$invalid && signupform.username.$dirty}">
+					<label for="username" class="col-md-3 control-label">User Name</label>
 					<div class="col-md-9">
-						<input type="text" class="form-control" name="email"
+						<input type="text" class="form-control" name="username"
 							placeholder="User Name" ng-model="regisUser.username"
 							ng-minlength="3" required>
-						<p ng-show="signupform.email.$error.required && signupform.email.$dirty"
+						<p ng-show="signupform.username.$error.required && signupform.username.$dirty"
 							class="help-block error-text">User name is required.</p>
-						<p ng-show="signupform.email.$error.minlength"
+						<p ng-show="signupform.username.$error.minlength"
 							class="help-block error-text">User name is too short.</p>
 					</div>
 				</div>
@@ -76,15 +86,33 @@
 						</label>
 					</div>
 				</div>
+				
+				<div class="form-group has-feedback">
+					<label for="passwordverify" class="col-md-3 control-label">Avartar</label>
+					<div class="col-md-9">
+						<div class="fileinput fileinput-new" data-provides="fileinput">
+							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+							<div>
+								<span class="btn-file">
+									<span class="btn btn-success btn-sm fileinput-new" style="boder-color: none">Select image</span>
+									<span class="btn btn-success btn-sm fileinput-exists">Change</span>
+									<input type="file" name="file" required>
+								</span>
+								<button class="btn btn-danger btn-sm fileinput-exists" data-dismiss="fileinput">Remove</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<div class="form-group">
 					<div class="col-md-offset-3 col-md-9">
-						<button id="btn-signup" type="submit" class="btn btn-primary"
-							ng-disabled="signupform.$invalid">Add
+						<button id="btn-signup" type="submit" class="btn btn-primary" ng-disabled="signupform.$invalid">
+							<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Save
 						</button>
 
-						<button type="button" class="btn btn-success"
-							ng-click="showList()">Cancel</button>
+						<button type="button" class="btn btn-success" ng-click="showList()">
+							<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;Back
+						</button>
 					</div>
 				</div>
 

@@ -9,19 +9,21 @@
 	<http realm="Protected API" use-expressions="true"
 		entry-point-ref="restAuthenticationEntryPoint">
 		<intercept-url pattern="/api/user/authenticate/**"
-			access="permitAll" requires-channel="https" />
+			access="permitAll" requires-channel="any" />
+		<intercept-url pattern="/api/user/active/**"
+			access="permitAll" requires-channel="any" />
 		<intercept-url pattern="/api/user/regis" access="permitAll"
-			requires-channel="https" />
+			requires-channel="any" />
 		<intercept-url pattern="/api/song/share" access="permitAll"
-			requires-channel="https" />
+			requires-channel="any" />
 		<intercept-url pattern="/api/user/all" access="hasRole('ROLE_ADMIN')"
-			requires-channel="https" />
+			requires-channel="any" />
 		<intercept-url pattern="/api/user" method="PUT"
-			access="isFullyAuthenticated()" requires-channel="https" />
+			access="isFullyAuthenticated()" requires-channel="any" />
 		<intercept-url pattern="/api/user" access="hasRole('ROLE_ADMIN')"
-			requires-channel="https" />
+			requires-channel="any" />
 		<intercept-url pattern="/api/**" access="isFullyAuthenticated()"
-			requires-channel="https" />
+			requires-channel="any" />
 
 		<form-login authentication-failure-handler-ref="authenticationFailureHandler"
 			authentication-success-handler-ref="authenticationSuccessHandler" />

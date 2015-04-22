@@ -2,6 +2,13 @@
 <div class="row panel panel-primary">
 	<div class="panel-heading clearfix">
 		<h3 class="panel-title pull-left">Share With Me</h3>
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" ng-click="load()">  
+	           		<i class="glyphicon glyphicon-refresh pull-left"></i> 
+	           	</button>
+			</div>
+		</div>
 	</div>
 	<div class="panel-body" style="padding: 0">
 		<div class="table-responsive">
@@ -9,7 +16,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-1">No</th>
-						<th class="col-md-4" ng-click="reverse=!reverse;order('name', reverse)">
+						<th class="col-md-3" ng-click="reverse=!reverse;order('name', reverse)">
 							Name&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="name"></span>
 						</th>
@@ -25,13 +32,13 @@
 							Gener&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="gener"></span>
 						</th>
-						<th class="col-md-2">Actions</th>
+						<th class="col-md-3">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="song in $root.shareResponse.content | filter: keyword">
 						<td ng-class="{selected: selectedSong, even: $even}">
-							 <input type="checkbox" id={{song.id}} value={{song.id}} ng-click="select(song.id)" ng-model="selectedSong"/> &nbsp;
+							 <input type="checkbox" id={{song.id}} value={{song.id}} disabled=""/> &nbsp;
 							 <span>{{$root.shareResponse.number * $root.shareResponse.size + $index + 1}}</span>
 						</td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.name | highlight: keyword"></td>

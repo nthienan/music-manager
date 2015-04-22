@@ -10,7 +10,7 @@ var exampleAppConfig = {
 	useAuthTokenHeader: true 	
 };
 
-var mainApp = angular.module('musicManagerApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
+var mainApp = angular.module('musicManagerApp', ['ngRoute', 'ngSanitize', 'ngCookies', 'ngProgress']);
 
 mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	$routeProvider
@@ -74,6 +74,11 @@ mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', functio
 			templateUrl : 'views/editUser.html',
 			controller : 'editUserCtrl'
 		})
+		// active
+		.when('/active/:username/:token', {
+			templateUrl : 'views/active.html',
+			controller : 'activeCtrl'
+		})
 		// default
 		.otherwise({
 			redirectTo : '/login'
@@ -125,9 +130,10 @@ mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', functio
 		};
 	});
 }])
- 	.run(function($rootScope, $location, $cookieStore, $http) {
+ 	.run(function($rootScope, $location, $cookieStore, $http, ngProgress) {
  		$rootScope.pageNumber = 1;
  		$rootScope.pageSize = 10;
+ 		$rootScope.activeStatus = false;
  		/* Reset error when a new view is loaded */
  		$rootScope.$on('$viewContentLoaded', function() {
  			delete $rootScope.error;
@@ -138,27 +144,44 @@ mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', functio
  				return false;
  			}
 			
- 			if ($rootScope.user.roles[role] == undefined) {
- 				return false;
+ 			for(var i = 0; i < $rootScope.user.roles.length; i++) {
+	 			if ($rootScope.user.roles[i] == role)
+	 				return true;
  			}
 			
- 			return $rootScope.user.roles[role];
+ 			return false;
  		};
  		
  		$rootScope.logout = function() {
+ 			ngProgress.start();
  			$http.get('/api/logout')
 				.success(function(data){
 					delete $rootScope.user;
 		 			delete $rootScope.authToken;
 		 			$rootScope.authenticated = false;
 		 			$cookieStore.remove('authToken');
+		 			ngProgress.complete();
 		 			$location.path("/login");
 				})
 				.error(function(data, status){
+					ngProgress.complete();
 					alert(status)
 				});
  			
  		};
+ 		
+ 		$rootScope.getUser = function (){
+ 			ngProgress.start();
+ 			$http.get('/api/user/get')
+				.success(function(data, status){
+					$rootScope.user = data.response;
+					ngProgress.complete();
+				})
+				.error(function(data, status){
+					console.log(data + status);
+					ngProgress.complete();
+				});
+ 		}
 		
  		/* Try getting valid user from cookie or go to login page */
  		var originalPath = $location.path();
@@ -166,12 +189,14 @@ mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', functio
  		var authToken = $cookieStore.get('authToken');
  		if (authToken != undefined) {
  			$rootScope.authToken = authToken;
- 			
  			$http.get('/api/user/get')
  				.success(function(data){
  					$rootScope.user = data.response;
  					$rootScope.authenticated = true;
  	 				$location.path(originalPath);
+ 				})
+ 				.error(function(data, status){
+ 					console.log(data + status);
  				});
  		}
 		

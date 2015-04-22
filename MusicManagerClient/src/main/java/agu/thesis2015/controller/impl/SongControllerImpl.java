@@ -99,8 +99,8 @@ public class SongControllerImpl implements SongController {
 	@Override
 	@RequestMapping(value = "/{username}/upload", method = RequestMethod.POST, produces = "application/json")
 	public Response upload(@PathVariable String username, @RequestParam String name, @RequestParam String gener, @RequestParam String artist,
-			@RequestParam String musician, @RequestParam MultipartFile file, HttpServletRequest request) {
-		return service.upload(username, name, gener, artist, musician, file, request);
+			@RequestParam String musician, @RequestParam boolean shared, @RequestParam MultipartFile file, HttpServletRequest request) {
+		return service.upload(username, name, gener, artist, musician, shared, file, request);
 	}
 
 	// update view

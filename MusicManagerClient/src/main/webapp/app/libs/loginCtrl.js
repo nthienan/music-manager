@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // login controller
-mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $cookieStore) {
+mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $cookieStore, ngProgress) {
 	$scope.rememberMe = true;
 	$scope.haveError = false;
 	
@@ -11,6 +11,7 @@ mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $
 	}
 	
 	$scope.login = function() {
+		ngProgress.start();
 		$http({
 			method: 'POST',
 			url: '/api/user/authenticate/' + $scope.username + '/' + $scope.password,
@@ -26,12 +27,17 @@ mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $
  				.success(function(data){
  					$rootScope.user = data.response;
  					$rootScope.authenticated = true;
+ 					ngProgress.complete();
  					$location.path("/");
+ 				})
+ 				.error(function(data, status){
+ 					ngProgress.complete();
  				});
 		})
 		.error(function(data, status) {
 			$scope.haveError = true;
 			$rootScope.error = "Username/password is incorect";
+			ngProgress.complete();
 		});
 	};
 });

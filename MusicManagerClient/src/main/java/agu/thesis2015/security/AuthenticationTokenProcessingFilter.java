@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.GenericFilterBean;
 
+import agu.thesis2015.security.util.TokenUtils;
+
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 
 	@Autowired

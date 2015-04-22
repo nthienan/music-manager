@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // song controller
-mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $filter) {
+mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress) {
 	$scope.selectedId = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -51,18 +51,28 @@ mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $f
 
 	// load list
 	$scope.load = function() {
+		ngProgress.start();
 		$http.get('/api/song/' + $rootScope.user.username + '?page=' + ($rootScope.pageNumber - 1) + '&size=' + $rootScope.pageSize)
-			.success(function(data) {
+			.success(function(data, status) {
 				$rootScope.songResponse = data.response;
+				ngProgress.complete();
+			})
+			.error(function(data, status){
+				console.log(status + data);
+				ngProgress.complete();
 			});
 	};
 
 	// save a song into database
 	$scope.create = function() {
+		ngProgress.start();
+		if($scope.formData.shared == undefined)
+			$scope.formData.shared = false;
 		var formData = new FormData();
 		formData.append("name", $scope.formData.name);
 		formData.append("gener", $scope.formData.gener);
 		formData.append("artist", $scope.formData.artist);
+		formData.append("shared", $scope.formData.shared);
 		formData.append("musician", $scope.formData.musician);
 		formData.append("file", document.forms['formUpload'].file.files[0]);
 		$http({
@@ -73,11 +83,15 @@ mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $f
 	     })
 	    .success(function(data, status) {   
 	    	$location.path('/');
+	     })
+	     .error(function(data, status){
+	    	 ngProgress.complete();
 	     });
 	};
 	
 	// delete
 	$scope.deleteMulti = function(){
+		ngProgress.start();
 		var values = JSON.stringify($scope.selectedId);
 		jQuery.ajax({
 			headers : {
@@ -89,16 +103,25 @@ mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $f
 				'dataType' : 'json'
 			})
 			.success(function(data){
+				ngProgress.complete();
 				$scope.load();
-		});
+			})
+			.error(function(data, status){
+				ngProgress.complete();
+			});
 	};
 	
 	// play
 	$scope.playSong = function(id) {
+		ngProgress.start();
 		$http.put('/api/song/' + id + '/view')
 			.success(function(data) {
+				ngProgress.complete();
 				$location.path('/play-song/' + id);
-		});
+			})
+			.error(function(data, status){
+				ngProgress.complete();
+			});
 	};
 	
 	// push or splice selected id
@@ -113,6 +136,10 @@ mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $f
 	// redirect to edit view
 	$scope.editSong = function(id) {
 		$location.path('/edit-song/' + id);
+	};
+	
+	$scope.back = function() {
+		$location.path('/');
 	};
 	
 	$scope.load();

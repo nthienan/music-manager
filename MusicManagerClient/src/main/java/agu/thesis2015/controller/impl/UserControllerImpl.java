@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import agu.thesis2015.controller.UserController;
 import agu.thesis2015.domain.User;
@@ -43,9 +44,13 @@ public class UserControllerImpl implements UserController {
 
 	// insert
 	@Override
-	@RequestMapping(value = "/regis", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public Response insert(@RequestBody User user) {
-		return service.insert(user);
+	@RequestMapping(value = "/regis", method = RequestMethod.POST, produces = "application/json")
+	public Response insert(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String role,
+			@RequestParam String fullName, @RequestParam String email, @RequestParam(required = false) MultipartFile avartar, HttpServletRequest request) {
+		User user = new User(username, password, null, fullName, email);
+		if (null != role && !"".equalsIgnoreCase(role))
+			user.addRole(role);
+		return service.insert(user, avartar, request);
 	}
 
 	// paging
@@ -68,13 +73,6 @@ public class UserControllerImpl implements UserController {
 	@RequestMapping(value = "/{username}/pass", method = RequestMethod.PUT, produces = "application/json")
 	public Response changePass(@PathVariable String username, @RequestParam(defaultValue = "") String oldPass, @RequestParam(defaultValue = "") String newPass) {
 		return service.changePass(username, oldPass, newPass);
-	}
-
-	// delete all
-	@Override
-	@RequestMapping(value = "/all", method = RequestMethod.DELETE, produces = "application/json")
-	public Response deleteAll() {
-		return service.deleteAll();
 	}
 
 	// delete
@@ -109,5 +107,11 @@ public class UserControllerImpl implements UserController {
 	@RequestMapping(value = "/authenticate/{username}/{password}", method = RequestMethod.POST, produces = "application/json")
 	public TokenTranfer authenticate(@PathVariable String username, @PathVariable String password) {
 		return service.authenticate(username, password);
+	}
+
+	@Override
+	@RequestMapping(value = "/active", method = RequestMethod.POST, produces = "application/json")
+	public Response active(@RequestParam(defaultValue = "") String username, @RequestParam(defaultValue = "") String activeToken) {
+		return service.active(username, activeToken);
 	}
 }

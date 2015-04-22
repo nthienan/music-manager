@@ -34,7 +34,7 @@ public interface SongController {
 
 	Response search(String username, String keyword, int page, int size, String sort, String field);
 
-	Response upload(String username, String name, String gener, String artist, String musician, MultipartFile file, HttpServletRequest request);
+	Response upload(String username, String name, String gener, String artist, String musician, boolean shared, MultipartFile file, HttpServletRequest request);
 
 	Response updateView(String songId);
 

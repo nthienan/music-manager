@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Music Manager</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<link rel="stylesheet" type="text/css"
-	href="bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+	<meta charset="UTF-8">
+	<title>Music Manager</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="resources/css/jasny-bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+	<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="libs/scripts.js"></script>
+	<script type="text/javascript" src="libs/jasny-bootstrap.min.js"></script>
+	<!-- angular lib -->
+	<script type="text/javascript" src="libs/angular.min.js"></script>
+	<script type="text/javascript" src="libs/angular-route.min.js"></script>
+	<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="libs/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="libs/ngProgress.min.js"></script>
+	<!-- script angular -->
+	<script type="text/javascript" src="libs/app.js"></script>
+	<script type="text/javascript" src="libs/mainCtrl.js"></script>
+	<script type="text/javascript" src="libs/loginCtrl.js"></script>
+	<script type="text/javascript" src="libs/songCtrl.js"></script>
+	<script type="text/javascript" src="libs/editSongCtrl.js"></script>
+	<script type="text/javascript" src="libs/userCtrl.js"></script>
+	<script type="text/javascript" src="libs/accountCtrl.js"></script>
+	<script type="text/javascript" src="libs/adminCtrl.js"></script>
+	<script type="text/javascript" src="libs/shareCtrl.js"></script>
+	<script type="text/javascript" src="libs/createUserCtrl.js"></script>
+	<script type="text/javascript" src="libs/editUserCtrl.js"></script>
+	<script type="text/javascript" src="libs/playCtrl.js"></script>
+	<script type="text/javascript" src="libs/statsCtrl.js"></script>
+	<script type="text/javascript" src="libs/activeCtrl.js"></script>
 </head>
 <body ng-app="musicManagerApp" ng-controller="mainCtrl">
 	<div class="wrapper">
@@ -41,23 +66,16 @@
 							</button>
 						</li>
 						<li>
-							<button type="button" class="btn btn-link" ng-click="addSong()"
-								style="width: 100%">
-								<i class="glyphicon glyphicon-music pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Add New Song</span>
-							</button>
-						</li>
-						<li>
-							<button type="button" class="btn btn-link" style="width: 100%">
-								<i class="glyphicon glyphicon-refresh pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Refresh</span>
-							</button>
-						</li>
-						<li>
 							<button type="button" class="btn btn-link" ng-click="setting()"
 								style="width: 100%">
+								<i class="glyphicon glyphicon-wrench pull-left"></i> <span
+									class="pull-left">&nbsp;&nbsp;&nbsp;Setting</span>
+							</button>
+						</li>
+						<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')">
+							<button type="button" class="btn btn-link" style="width: 100%" ng-click="admin()">
 								<i class="glyphicon glyphicon-user pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Manage account</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;Manage users</span>
 							</button>
 						</li>
 						<li>
@@ -83,18 +101,18 @@
 							ng-click="shareList()" style="width: 100%">
 							<i class="glyphicon glyphicon-share"></i>
 						</button></li>
-						<li><button type="button" class="btn btn-link text-center"
-								ng-click="addSong()" style="width: 100%">
-								<i class="glyphicon glyphicon-music"></i>
-							</button></li>
-						<li><button type="button" class="btn btn-link text-center"
-								style="width: 100%">
-								<i class="glyphicon glyphicon-refresh"></i>
-							</button></li>
-						<li><button type="button" class="btn btn-link text-center"
+						<li>
+							<button type="button" class="btn btn-link text-center"
 								ng-click="setting()" style="width: 100%">
+								<i class="glyphicon glyphicon-wrench"></i>
+							</button>
+						</li>
+						<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')">
+							<button type="button" class="btn btn-link text-center" ng-click="admin()"
+								style="width: 100%">
 								<i class="glyphicon glyphicon-user"></i>
-							</button></li>
+							</button>
+						</li>
 						<li><button type="button" class="btn btn-link text-center"
 								ng-click="statistics()" style="width: 100%">
 								<i class="glyphicon glyphicon-stats"></i>
@@ -135,12 +153,14 @@
 							</form>
 							<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
 								<li class="dropdown">
-									<a href="" class="dropdown-toggle" data-toggle="dropdown">
-										<i class="glyphicon glyphicon-user"></i>
-										{{$root.authenticated ? $root.user.username : ""}}
+									<a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding: 5px !important">
+										<img src="{{$root.authenticated ? $root.user.image : image/avartar.png}}" alt="125x125" 
+											height="40px" width="55px" style="border-radius: 3px">
+										{{$root.authenticated ? $root.user.fullName : ""}}
 									</a>
 									<ul class="dropdown-menu">
-										<li><a ng-click="setting()">Manage account</a></li>
+										<li><a ng-click="setting()">Setting</a></li>
+										<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')"><a ng-click="admin()">Manage users</a></li>
 										<li><a ng-click="logout()">Logout</a></li>
 									</ul>
 								</li>
@@ -161,26 +181,6 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="libs/scripts.js"></script>
-		<script type="text/javascript" src="libs/angular.min.js"></script>
-		<script type="text/javascript" src="libs/angular-route.min.js"></script>
-		<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
-		<script type="text/javascript" src="libs/angular-cookies.min.js"></script>
-		<script type="text/javascript" src="libs/app.js"></script>
-		<script type="text/javascript" src="libs/mainCtrl.js"></script>
-		<script type="text/javascript" src="libs/loginCtrl.js"></script>
-		<script type="text/javascript" src="libs/songCtrl.js"></script>
-		<script type="text/javascript" src="libs/editSongCtrl.js"></script>
-		<script type="text/javascript" src="libs/userCtrl.js"></script>
-		<script type="text/javascript" src="libs/accountCtrl.js"></script>
-		<script type="text/javascript" src="libs/adminCtrl.js"></script>
-		<script type="text/javascript" src="libs/shareCtrl.js"></script>
-		<script type="text/javascript" src="libs/createUserCtrl.js"></script>
-		<script type="text/javascript" src="libs/editUserCtrl.js"></script>
-		<script type="text/javascript" src="libs/playCtrl.js"></script>
-		<script type="text/javascript" src="libs/statsCtrl.js"></script>
 	</div>
 </body>
 </html>

@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // admin controller
-mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $filter) {
+mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress) {
 	$scope.selectedId = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -24,14 +24,21 @@ mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $
 
 	// load list
 	$scope.load = function() {
+		ngProgress.start();
 		$http.get('/api/user' + '?page=' + ($rootScope.pageNumber - 1) + '&size=' + $rootScope.pageSize)
 			.success(function(data) {
 				$scope.response = data.response;
+				ngProgress.complete();
+			})
+			.error(function(data, status){
+				console.log(status + data);
+				ngProgress.complete();
 			});
 	};
 	
 	// delete
 	$scope.deleteMulti = function(){
+		ngProgress.start();
 		var values = JSON.stringify($scope.selectedId);
 		jQuery.ajax({
 			headers : {
@@ -44,7 +51,12 @@ mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $
 			})
 			.success(function(data){
 				$scope.load();
-		});
+				ngProgress.complete();
+			})
+			.error(function(data, status){
+				console.log(status + data);
+				ngProgress.complete();
+			});
 	};
 	
 	// push or splice selected id

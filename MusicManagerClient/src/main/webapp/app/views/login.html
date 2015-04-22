@@ -58,14 +58,22 @@
 					{{error}}
 				</div>
 				
-				<div class="alert alert-success alert-dismissable" ng-show="regisSuccess">
+				<div class="alert alert-success alert-dismissable" ng-show="regisSuccess && !$root.activeStatus">
 					<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
 					<span class="sr-only">Success:</span>
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 					   &times;
 					</button>
-					Register user success. <br /> 
-					Please login to begin using application. 
+					Register user success. Please check mail to complete registration. 
+				</div>
+				
+				<div class="alert alert-success alert-dismissable" ng-show="$root.activeStatus">
+					<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+					<span class="sr-only">Success:</span>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+					   &times;
+					</button>
+					Account activated successfully. Please login to begin using application. 
 				</div>
 
 				<div class="form-group">

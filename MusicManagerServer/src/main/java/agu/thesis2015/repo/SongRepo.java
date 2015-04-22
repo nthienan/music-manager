@@ -19,10 +19,8 @@ import agu.thesis2015.domain.Song;
 @Repository
 public interface SongRepo extends MongoRepository<Song, String> {
 
-	@Query("{$and:[{'username':?0},{$or : [{'name' : { $regex: ?1, $options: 'i' }}, {'genre' : { $regex: ?1, $options: 'i' } }, {'artist' : { $regex: ?1, $options: 'i' } },"
-			+ "{'musician' : { $regex: ?1, $options: 'i' } }  ] }]}")
-	public Page<Song> findAllCriteria(Pageable page, String username,
-			String keyword);
+	@Query("{$and:[{'username':?0},{$or : [{'name' : { $regex: ?1, $options: 'i' }}, {'genre' : { $regex: ?1, $options: 'i' } }, {'artist' : { $regex: ?1, $options: 'i' } },{'musician' : { $regex: ?1, $options: 'i' } }  ] }]}")
+	public Page<Song> findAllCriteria(Pageable page, String username, String keyword);
 
 	@Query("{'username':?0}")
 	public List<Song> findByUsername(String username);
