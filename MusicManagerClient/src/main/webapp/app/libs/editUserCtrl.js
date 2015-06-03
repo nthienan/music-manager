@@ -2,7 +2,7 @@
  * @author nthienan
  */
 //edit user controller
-mainApp.controller('editUserCtrl', function($rootScope, $scope, $http, $location, $routeParams, ngProgress) {
+mainApp.controller('editUserCtrl', function($rootScope, $scope, $http, $location, $routeParams, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 
 	// get an user by username to edit
@@ -46,6 +46,11 @@ mainApp.controller('editUserCtrl', function($rootScope, $scope, $http, $location
 	$scope.showList = function() {
 		$location.path('/admin');
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	// load data
 	$scope.load();

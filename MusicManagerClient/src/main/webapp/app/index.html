@@ -19,6 +19,8 @@
 	<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="libs/angular-cookies.min.js"></script>
 	<script type="text/javascript" src="libs/ngProgress.min.js"></script>
+	<script type="text/javascript" src="libs/angular-translate.min.js"></script>
+	<script type="text/javascript" src="libs/angular-translate-loader-url.min.js"></script>
 	<!-- script angular -->
 	<script type="text/javascript" src="libs/app.js"></script>
 	<script type="text/javascript" src="libs/mainCtrl.js"></script>
@@ -55,40 +57,40 @@
 							<button type="button" class="btn btn-link" ng-click="showList()"
 								style="width: 100%">
 								<i class="glyphicon glyphicon-list pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;My Music</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;{{'Main.MyMusic' | translate}}</span>
 							</button>
 						</li>
 						<li>
 							<button type="button" class="btn btn-link" ng-click="shareList()"
 								style="width: 100%">
 								<i class="glyphicon glyphicon-share pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Share With Me</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;{{'Main.ShareWithMe' | translate}}</span>
 							</button>
 						</li>
 						<li>
 							<button type="button" class="btn btn-link" ng-click="setting()"
 								style="width: 100%">
 								<i class="glyphicon glyphicon-wrench pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Setting</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;{{'Main.Setting' | translate}}</span>
 							</button>
 						</li>
 						<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')">
 							<button type="button" class="btn btn-link" style="width: 100%" ng-click="admin()">
 								<i class="glyphicon glyphicon-user pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Manage users</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;{{'Main.ManageUsers' | translate}}</span>
 							</button>
 						</li>
 						<li>
 							<button type="button" class="btn btn-link"
 								ng-click="statistics()" style="width: 100%">
 								<i class="glyphicon glyphicon-stats pull-left"></i> <span
-									class="pull-left">&nbsp;&nbsp;&nbsp;Statistics</span>
+									class="pull-left">&nbsp;&nbsp;&nbsp;{{'Main.Statistics' | translate}}</span>
 							</button>
 						</li>
 					</ul>
 					<ul class="list-unstyled hidden-xs" id="sidebar-footer">
-						<li><a href=""><h4>Music Manager</h4> <i
-								class="glyphicon glyphicon-music"></i> thesis 2015</a></li>
+						<li><a href=""><h4>{{'Main.Title' | translate}}</h4> <i
+								class="glyphicon glyphicon-music"></i> {{'Main.Thesis' | translate}}</a></li>
 					</ul>
 
 					<!-- tiny only nav-->
@@ -140,9 +142,9 @@
 						<nav class="collapse navbar-collapse" role="navigation">
 							<form class="navbar-form navbar-left" style="width: 300px">
 								<div class="input-group input-group-sm" style="width: 100%">
-									<input type="text" class="form-control" placeholder="Search"
+									<input type="text" class="form-control" placeholder="{{'Main.Search' | translate}}"
 										name="srch-term" id="srch-term" ng-model="keyword"
-										ng-change="search()">
+										ng-change="search()" />
 									<div class="input-group-btn">
 										<button class="btn btn-default" type="submit"
 											ng-click="search()">
@@ -151,6 +153,28 @@
 									</div>
 								</div>
 							</form>
+							<div class="navbar-form navbar-left" style="width: 200px">
+								<ul class="nav navbar-nav">
+									<li class="dropdown">
+										<a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding: 5px !important">
+											{{'Main.Language' | translate}}
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="" ng-click="changeLang('en')" style="padding: 5px"><span class="glyphicon glyphicon-ok" ng-show="lang == 'en'"></span>
+													&nbsp;&nbsp;English
+												</a>
+											</li>
+											<li>
+												<a href="" ng-click="changeLang('vi')" style="padding: 5px"><span class="glyphicon glyphicon-ok" ng-show="lang == 'vi'"></span>
+													&nbsp;&nbsp;Tiếng Việt
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
 							<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
 								<li class="dropdown">
 									<a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding: 5px !important">
@@ -159,9 +183,9 @@
 										{{$root.authenticated ? $root.user.fullName : ""}}
 									</a>
 									<ul class="dropdown-menu">
-										<li><a ng-click="setting()">Setting</a></li>
-										<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')"><a ng-click="admin()">Manage users</a></li>
-										<li><a ng-click="logout()">Logout</a></li>
+										<li><a ng-click="setting()">{{'Main.Setting' | translate}}</a></li>
+										<li ng-show="$root.authenticated && $root.hasRole('ROLE_ADMIN')"><a ng-click="admin()">{{'Main.ManageUsers' | translate}}</a></li>
+										<li><a ng-click="logout()">{{'Main.Logout' | translate}}</a></li>
 									</ul>
 								</li>
 							</ul>

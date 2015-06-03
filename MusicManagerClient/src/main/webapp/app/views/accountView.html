@@ -2,7 +2,7 @@
 	<div class="col-md-12 col-sm-12">
 		<div class="row panel panel-primary">
 			<div class="panel-heading clearfix">
-				<h3 class="panel-title pull-left">Account Information</h3>
+				<h3 class="panel-title pull-left">{{'Account.AccountInformation' | translate}}</h3>
 				<div class="btn-group pull-right">
 					<button type="button" class="btn btn-sm btn-success" ng-click="editAccount()" ng-class="{'disabled' : changePassState}">
 		           		<i class="glyphicon glyphicon-pencil pull-left"></i> 
@@ -15,11 +15,11 @@
 						<table class="table table-hover" style="margin-bottom: 0; cursor: pointer;">
 							<tbody>
 								<tr ng-hide="editState">
-									<td class="col-md-3 col-sm-3" style="border-top: 0">Name:</td>
+									<td class="col-md-3 col-sm-3" style="border-top: 0">{{'Account.Name' | translate}}:</td>
 									<td class="col-md-9 col-sm-9" style="border-top: 0">{{account.fullName}}</td>
 								</tr>
 								<tr ng-hide="editState">
-									<td class="col-md-3 col-sm-3" style="border-top: 0">Email:</td>
+									<td class="col-md-3 col-sm-3" style="border-top: 0">{{'Account.Email' | translate}}:</td>
 									<td class="col-md-9 col-sm-9" style="border-top: 0">{{account.email}}</td>
 								</tr>
 								<tr ng-show="editState">
@@ -27,33 +27,33 @@
 										<form id="updateAccountForm" class="form-horizontal" name="updateAccountForm" role="form">
 											<div class="form-group has-feedback" ng-class="{'has-success' : updateAccountForm.fullname.$valid, 'has-error' : updateAccountForm.fullname.$invalid && updateAccountForm.fullname.$dirty}"
 												style="margin: 0; margin-bottom: 7px">
-												<label for="fullname" class="col-md-3 control-label">Name</label>
+												<label for="fullname" class="col-md-3 control-label">{{'Account.Name' | translate}}</label>
 												<div class="col-md-9">
-													<input type="text" class="form-control" name="fullname" placeholder="Full Name"
+													<input type="text" class="form-control" name="fullname" placeholder="{{'Account.Name' | translate}}"
 														ng-model="fullNameNew" required>
-													<p ng-show="updateAccountForm.fullname.$error.required && updateAccountForm.fullname.$dirty" class="help-block error-text">Full name is required.</p>
+													<p ng-show="updateAccountForm.fullname.$error.required && updateAccountForm.fullname.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
 												</div>
 											</div>
 											
 											<div class="form-group has-feedback" ng-class="{'has-success' : updateAccountForm.email.$valid, 'has-error' : updateAccountForm.email.$invalid && updateAccountForm.email.$dirty}"
 												style="margin: 0">
-												<label for="email" class="col-md-3 control-label">Email</label>
+												<label for="email" class="col-md-3 control-label">{{'Account.Email' | translate}}</label>
 													<div class="col-md-9">
 														<input type="email" class="form-control" name="email" placeholder="Email Address"
 															ng-model="emailNew" ng-minlength="3" required>
-														<p ng-show="updateAccountForm.email.$error.required && updateAccountForm.email.$dirty" class="help-block error-text">Email address is required.</p>
-														<p ng-show="updateAccountForm.email.$error.email" class="help-block error-text">Email address invalid.</p>
+														<p ng-show="updateAccountForm.email.$error.required && updateAccountForm.email.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
+														<p ng-show="updateAccountForm.email.$error.email" class="help-block error-text">{{'Message.Invalid' | translate}}</p>
 													</div>
 											</div>
 										</form>
 									</td>
 								</tr>
 								<tr>
-									<td class="col-md-3 col-sm-3">Username:</td>
+									<td class="col-md-3 col-sm-3">{{'Account.Username' | translate}}:</td>
 									<td class="col-md-9 col-sm-9">{{account.username}}</td>
 								</tr>
 								<tr>
-									<td>Role:</td>
+									<td>{{'Account.Role' | translate}}:</td>
 									<td>
 										<label class="checkbox-inline" ng-repeat="r in account.roles">
 											<input type="checkbox" id="{{r}}" value="{{r}}" checked="hasRole(r)" disabled> {{r}}
@@ -62,9 +62,9 @@
 									</td>
 								</tr>
 								<tr ng-hide="changePassState">
-									<td>Password:</td>
+									<td>{{'Account.Password' | translate}}:</td>
 									<td>
-										<button type="button" class="btn btn-link" style="padding: 0" ng-class="{'disabled' : editState}" ng-click="changePass()">Change password</button>
+										<button type="button" class="btn btn-link" style="padding: 0" ng-class="{'disabled' : editState}" ng-click="changePass()">{{'Account.ChangePassword' | translate}}</button>
 									</td>
 								</tr>
 								<tr ng-show="changePassState">
@@ -73,34 +73,34 @@
 	        
 	        								<div class="form-group has-feedback" ng-class="{'has-success' : changePassForm.oldpassword.$valid, 'has-error' : changePassForm.oldpassword.$invalid && changePassForm.oldpassword.$dirty}"
 												style="margin: 0px 0px 15px 0px">
-												<label for="oldpassword" class="col-md-3 control-label">Old Pass</label>
+												<label for="oldpassword" class="col-md-3 control-label">{{'Account.OldPass' | translate}}</label>
 												<div class="col-md-9">
-													<input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Old Password"
+													<input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="{{'Account.OldPass' | translate}}"
 														ng-model="oldpassword" required ng-minlength="6">
-													<p ng-show="changePassForm.oldpassword.$error.required && changePassForm.oldpassword.$dirty" class="help-block error-text">Old Password is required.</p>
-													<p ng-show="changePassForm.oldpassword.$error.minlength" class="help-block error-text">Old Password is too short.</p>
+													<p ng-show="changePassForm.oldpassword.$error.required && changePassForm.oldpassword.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
+													<p ng-show="changePassForm.oldpassword.$error.minlength" class="help-block error-text">{{'Message.PassTooShort' | translate}}</p>
 												</div>
 											</div>
 											
 											<div class="form-group has-feedback" ng-class="{'has-success' : changePassForm.password.$valid, 'has-error' : changePassForm.password.$invalid && changePassForm.password.$dirty}"
 												style="margin: 0px 0px 15px 0px">
-												<label for="password" class="col-md-3 control-label">New Pass</label>
+												<label for="password" class="col-md-3 control-label">{{'Account.NewPass' | translate}}</label>
 												<div class="col-md-9">
-													<input type="password" class="form-control" id="password" name="password" placeholder="New Password"
+													<input type="password" class="form-control" id="password" name="password" placeholder="{{'Account.NewPass' | translate}}"
 														ng-model="password" required ng-minlength="6">
-													<p ng-show="changePassForm.password.$error.required && changePassForm.password.$dirty" class="help-block error-text">Password is required.</p>
-													<p ng-show="changePassForm.password.$error.minlength" class="help-block error-text">Password is too short.</p>
+													<p ng-show="changePassForm.password.$error.required && changePassForm.password.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
+													<p ng-show="changePassForm.password.$error.minlength" class="help-block error-text">{{'Message.PassTooShort' | translate}}</p>
 												</div>
 											</div>
 							
 											<div class="form-group has-feedback" ng-class="{'has-success' : changePassForm.passwordverify.$valid, 'has-error' : changePassForm.passwordverify.$invalid && changePassForm.passwordverify.$dirty}"
 												style="margin: 0px 0px 15px 0px">
-												<label for="passwordverify" class="col-md-3 control-label">Pass Verify</label>
+												<label for="passwordverify" class="col-md-3 control-label">{{'Account.PassVerify' | translate}}</label>
 												<div class="col-md-9">
-													<input type="password" class="form-control" id="passwordverify" name="passwordverify" placeholder="Password Verify"
+													<input type="password" class="form-control" id="passwordverify" name="passwordverify" placeholder="{{'Account.PassVerify' | translate}}"
 														ng-model="passwordVerify" required pw-check="password">
-													<p ng-show="changePassForm.passwordverify.$error.required && changePassForm.passwordverify.$dirty" class="help-block error-text">Password is required.</p>
-													<p ng-show="changePassForm.passwordverify.$error.pwmatch" class="help-block error-text">Password do not match.</p>
+													<p ng-show="changePassForm.passwordverify.$error.required && changePassForm.passwordverify.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
+													<p ng-show="changePassForm.passwordverify.$error.pwmatch" class="help-block error-text">{{'Message.PassNotMatch' | translate}}</p>
 												</div>
 											</div>
 											
@@ -126,11 +126,11 @@
 							</div>
 							<div ng-hide="!editState">
 								<span class="btn-file">
-									<span class="btn btn-success btn-sm fileinput-new" style="boder-color: none">Select image</span>
-									<span class="btn btn-success btn-sm fileinput-exists">Change</span>
+									<span class="btn btn-success btn-sm fileinput-new" style="boder-color: none">{{'Account.Button.SelectAvatar' | translate}}</span>
+									<span class="btn btn-success btn-sm fileinput-exists">{{'Account.Button.ChangeAvatar' | translate}}</span>
 									<input type="file" name="file" required>
 								</span>
-								<button class="btn btn-danger btn-sm fileinput-exists" data-dismiss="fileinput">Remove</button>
+								<button class="btn btn-danger btn-sm fileinput-exists" data-dismiss="fileinput">{{'Account.Button.RemoveAvatar' | translate}}</button>
 							</div>
 						</div>
 					</div>
@@ -139,35 +139,34 @@
 			<div class="panel-footer" style="background: white">
 				<div class="alert alert-success alert-dismissable" ng-show="changePassSuccess">
 					<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-					<span class="sr-only">Success:</span>
+					<span class="sr-only">{{'Account.Message.Success' | translate}}:</span>
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 					   &times;
 					</button>
-					Change password success. 
+					{{'Account.Message.ChangePassSuccess' | translate}} 
 				</div>
 				<div ng-show="changePassState">
 					<button type="button" class="btn btn-primary" ng-click="updatePass()" ng-disabled="changePassForm.$invalid">
-						<i class="glyphicon glyphicon-floppy-save"></i>Change
+						<i class="glyphicon glyphicon-floppy-save"></i>{{'Account.Button.ChangePass' | translate}}
 					</button>
 					<button type="button" class="btn btn-success" ng-click="cancelPass()">
-						<i class="glyphicon glyphicon-floppy-remove"></i>&nbsp;&nbsp;Cancel
+						<i class="glyphicon glyphicon-floppy-remove"></i>&nbsp;&nbsp;{{'Button.Cancel' | translate}}
 					</button>
 				</div>
 				<div ng-show="editState">
 					<button type="button" class="btn btn-primary" ng-click="updateAccount()" ng-disabled="updateAccountForm.$invalid">
-						<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Update
+						<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;{{'Button.Update' | translate}}
 					</button>
 					<button type="button" class="btn btn-success" ng-click="cancelAccount()">
-						<i class="glyphicon glyphicon-floppy-remove"></i>&nbsp;&nbsp;Cancel
+						<i class="glyphicon glyphicon-floppy-remove"></i>&nbsp;&nbsp;{{'Button.Cancel' | translate}}
 					</button>
 				</div>
 				<div ng-hide="editState || changePassState">
-					<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 5px" ng-click="deleteOne(account.username)"
-						ng-confirm-click="Are you sure you want to remove this account?">
-						<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;&nbsp;Delete account
+					<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 5px" ng-click="deleteOne(account.username)">
+						<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;&nbsp;{{'Account.Button.DeleteAccount' | translate}}
 					</button>
 					<button type="button" class="btn btn-success" ng-click="back()">
-						<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;Back
+						<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;{{'Button.Back' | translate}}
 					</button>
 				</div>
 			</div>

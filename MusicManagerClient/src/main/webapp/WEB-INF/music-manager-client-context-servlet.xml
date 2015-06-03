@@ -16,7 +16,11 @@
 	<context:annotation-config />
 	<context:component-scan base-package="agu.thesis2015" />
 	<mvc:annotation-driven />
-
+	<mvc:default-servlet-handler/>
+	
+	<context:property-placeholder location="classpath:swagger.properties" />
+    <bean id="documentationConfig" class="com.mangofactory.swagger.configuration.DocumentationConfig"></bean>
+	
 	<!-- configuration upload file -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

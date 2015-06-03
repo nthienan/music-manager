@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // share controller
-mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $filter, $window, ngProgress) {
+mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $filter, $window, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
 	// sort
@@ -85,6 +85,11 @@ mainApp.controller('shareCtrl', function($rootScope, $scope, $http, $location, $
 				ngProgress.complete();
 			});
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	$scope.load();
 });

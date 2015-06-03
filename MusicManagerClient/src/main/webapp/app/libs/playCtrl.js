@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // play controller
-mainApp.controller('playCtrl', function($rootScope, $scope, $http, $location, $routeParams, $window, ngProgress) {
+mainApp.controller('playCtrl', function($rootScope, $scope, $http, $location, $routeParams, $window, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 
 	// get a song by id to play
@@ -30,6 +30,11 @@ mainApp.controller('playCtrl', function($rootScope, $scope, $http, $location, $r
 				ngProgress.complete();
 			});
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	// load data
 	$scope.load();

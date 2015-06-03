@@ -2,7 +2,7 @@
  * @author nthienan
  */
 //user controller
-mainApp.controller('userCtrl', function($rootScope, $scope, $http, $location, ngProgress) {
+mainApp.controller('userCtrl', function($rootScope, $scope, $http, $location, ngProgress, $translate, langService) {
 	$scope.haveError = false;
 	
 	// create new user
@@ -46,5 +46,10 @@ mainApp.controller('userCtrl', function($rootScope, $scope, $http, $location, ng
 				ngProgress.complete();
 				$location.path('/');
 			});
-	}
+	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 });

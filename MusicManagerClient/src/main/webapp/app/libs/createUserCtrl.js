@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // create user controller
-mainApp.controller('createUserCtrl', function($scope, $http, $location, ngProgress){
+mainApp.controller('createUserCtrl', function($scope, $http, $location, ngProgress, $translate, langService){
 	$scope.selectedRole = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -47,4 +47,9 @@ mainApp.controller('createUserCtrl', function($scope, $http, $location, ngProgre
 		else
 			$scope.selectedRole.push(role);
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 });

@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // login controller
-mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $cookieStore, ngProgress) {
+mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $cookieStore, ngProgress, $translate, langService) {
 	$scope.rememberMe = true;
 	$scope.haveError = false;
 	
@@ -40,4 +40,9 @@ mainApp.controller('loginCtrl', function($rootScope, $scope, $http, $location, $
 			ngProgress.complete();
 		});
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 });

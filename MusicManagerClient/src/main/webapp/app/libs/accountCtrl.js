@@ -2,7 +2,7 @@
  * @author nthienan
  */
 //account controller
-mainApp.controller('accountCtrl', function($rootScope, $scope, $http, $location, ngProgress) {
+mainApp.controller('accountCtrl', function($rootScope, $scope, $http, $location, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	$scope.editState = false;
 	$scope.changePassState = false;
@@ -112,6 +112,11 @@ mainApp.controller('accountCtrl', function($rootScope, $scope, $http, $location,
 	$scope.back = function() {
 		$location.path('/');
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	$scope.getUser();
 });

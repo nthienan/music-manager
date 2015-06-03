@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // statistics controller
-mainApp.controller('statsCtrl', function($rootScope, $scope, $http, $location, $window, ngProgress) {
+mainApp.controller('statsCtrl', function($rootScope, $scope, $http, $location, $window, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
 	$scope.load = function() {
@@ -44,6 +44,11 @@ mainApp.controller('statsCtrl', function($rootScope, $scope, $http, $location, $
 				ngProgress.complete();
 			});
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	$scope.load();
 });

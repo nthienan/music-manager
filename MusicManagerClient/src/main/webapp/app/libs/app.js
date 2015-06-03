@@ -10,9 +10,9 @@ var exampleAppConfig = {
 	useAuthTokenHeader: true 	
 };
 
-var mainApp = angular.module('musicManagerApp', ['ngRoute', 'ngSanitize', 'ngCookies', 'ngProgress']);
+var mainApp = angular.module('musicManagerApp', ['ngRoute', 'ngSanitize', 'ngCookies', 'ngProgress', 'pascalprecht.translate']);
 
-mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', function($routeProvider, $locationProvider, $httpProvider, $translateProvider) {
 	$routeProvider
 		// login
 		.when('/login', {
@@ -129,6 +129,202 @@ mainApp.config([ '$routeProvider', '$locationProvider', '$httpProvider', functio
 			}
 		};
 	});
+	
+	$translateProvider.translations('en', {
+		"Main" : {
+			"Title" : "Music Manager",
+			"Thesis" : "Thesis 2015",
+			"Language" : "Ngôn ngữ",
+			"MyMusic" : "My Music",
+			"ShareWithMe" : "Share With Me",
+			"Setting" : "Setting",
+			"ManageUsers" : "Manage Users",
+			"Statistics" : "Statistics",
+			"Search" : "Search",
+			"Logout" : "Logout",
+			"TotalItems" : "Total items",
+			"TotalPages" : "Total pages",
+			"Show" : "Show",
+			"To" : "to",
+			"PageSize" : "Page size",
+			"Page" : "Page"
+		},
+		"Song" : {
+			"No" : "No",
+			"Name" : "Name",
+			"Musician" : "Musician",
+			"Artist" : "Artist",
+			"Gener" : "Gener",
+			"Actions" : "Actions",
+			"Shared" : "Shared",
+			"File" : "File",
+			"AddNewSong" : "Add New Song",
+			"EditSong" : "Edit Song",
+			"LastUpdate" : "Last update",
+			"Song" : "Song",
+			"Listen" : "Listen",
+			"Download" : "Download",
+			"MostListened" : "Most Listened",
+			"MostDownload" : "Most Download",
+			"Message" : {
+				"Shared" : "Share with other users",
+				"ViewDetails" : "View Details",
+				"Listen" : "Listen",
+				"Download" : "Download"
+			}
+		},
+		"Account" : {
+			"Name" : "Full name",
+			"Email" : "Email",
+			"Username" : "Username",
+			"Role" : "Roles",
+			"Password" : "Password",
+			"ChangePassword" : "Change password",
+			"OldPass" : "Old pass",
+			"NewPass" : "New pass",
+			"PassVerify" : "Pass Verify",
+			"AccountInformation" : "Account Information",
+			"AddUser" : "Add User",
+			"Avatar" : "Avatar",
+			"EditUser" : "Edit User",
+			"Actived" : "Actived",
+			"NotActive" : "Not active",
+			"ListUser" : "List User",
+			"No" : "No",
+			"Actions" : "Actions",
+			"Button" : {
+				"ChangeAvatar" : "Change",
+				"RemoveAvatar" : "Remove",
+				"SelectAvatar" : "Select image",
+				"ChangePass" : "Change",
+				"DeleteAccount" : "Delete account",
+				"ResetPass" : "Reset password",
+				"Edit" : "Edit",
+				"Reset" : "Reset"
+			},
+			"Message" : {
+				"Success" : "Successful",
+				"ChangePassSuccess" : "Password changed successful."
+			}
+		},
+		"Button" : {
+			"Back" : "Back",
+			"Play" : "Play",
+			"Edit" : "Edit",
+			"Delete" : "Delete",
+			"Cancel" : "Cancel",
+			"Download" : "Download",
+			"Update" : "Update",
+			"Save" : "Save",
+			"Listen" : "Listen"
+		},
+		"Message" : {
+			"Required" : "This field is required",
+			"PassTooShort" : "Password is too short",
+			"PassNotMatch" : "Password do not match",
+			"Invalid" : "Value invalid",
+			"UsernameTooShort" : "User name too short"
+		}
+	  })
+	  .translations('vi', {
+		  "Main" : {
+			  "Title" : "Quản Lý Nhạc",
+			  "Thesis" : "Luận văn 2015",
+			  "Language" : "Language",
+			  "MyMusic" : "Nhạc Của Tôi",
+			  "ShareWithMe" : "Chia Sẽ Với Tôi",
+			  "Setting" : "Cài Đặt",
+			  "ManageUsers" : "Quản Lý",
+			  "Statistics" : "Thống Kê",
+			  "Search" : "Tìm Kiếm",
+			  "Logout" : "Đăng xuất",
+			  "TotalItems" : "Tổng số mục",
+			  "TotalPages" : "Tổng số trang",
+			  "Show" : "Hiển thị từ",
+			  "To" : "đến",
+			  "PageSize" : "Hiển thị",
+			  "Page" : "Trang"
+		},
+		"Account" : {
+			"Name" : "Tên",
+			"Email" : "Email",
+			"Username" : "Tên người dùng",
+			"Role" : "Quyền",
+			"Password" : "Mật khẩu",
+			"ChangePassword" : "Đổi mật khẩu",
+			"OldPass" : "Mật khẩu hiện tại",
+			"NewPass" : "Mật khẩu mới",
+			"PassVerify" : "Nhập lại mật khẩu",
+			"AccountInformation" : "Thông Tin Tài Khoản",
+			"AddUser" : "Người Dùng Mới",
+			"Avatar" : "Ảnh đại diện",
+			"EditUser" : "Cập Nhật Người Dùng",
+			"Actived" : "Đã kích hoạt",
+			"NotActive" : "Chưa kích hoạt",
+			"ListUser" : "Danh Sách Người Dùng",
+			"No" : "STT",
+			"Actions" : "Thao tác",
+			"Button" : {
+				"ChangeAvatar" : "Đổi ảnh đại diện",
+				"RemoveAvatar" : "Xóa ảnh đại diện",
+				"SelectAvatar" : "Chọn ảnh",
+				"ChangePass" : "Cập nhật",
+				"DeleteAccount" : "Xóa tài khoản",
+				"ResetPass" : "Khôi phục mật khẩu",
+				"Edit" : "Sửa",
+				"Reset" : "Khôi phục"
+			},
+			"Message" : {
+				"Success" : "Thành công",
+				"ChangePassSuccess" : "Mật khẩu đã thay đổi thành công."
+			}
+		},
+		"Song" : {
+			"No" : "STT",
+			"Name" : "Tên",
+			"Musician" : "Sáng tác",
+			"Artist" : "Thể hiện",
+			"Gener" : "Loại",
+			"Actions" : "Thao tác",
+			"Shared" : "Chia sẻ",
+			"File" : "Tệp",
+			"AddNewSong" : "Bài Hát Mới",
+			"EditSong" : "Cập Nhật Thông Tin Bài Hát",
+			"LastUpdate" : "Cập nhật lúc",
+			"Song" : "Bài hát",
+			"Listen" : "Lượt nghe",
+			"Download" : "Lượt tải về",
+			"MostListened" : "Nghe nhiều nhất",
+			"MostDownload" : "Tải về nhiều nhất",
+			"Message" : {
+				"Shared" : "Chia sẽ với người dùng khác",
+				"ViewDetails" : "Xem chi tiết",
+				"Listen" : "Nghe",
+				"Download" : "Tải về"
+			}
+		},
+		"Button" : {
+			"Back" : "Trở về",
+			"Play" : "Phát",
+			"Edit" : "Sửa",
+			"Delete" : "Xóa",
+			"Cancel" : "Hủy",
+			"Download" : "Tải xuống",
+			"Update" : "Cập nhật",
+			"Save" : "Lưu",
+			"Listen" : "Nghe"
+		},
+		"Message" : {
+			"Required" : "Bắt buộc",
+			"PassTooShort" : "Mật khẩu quá ngắn",
+			"PassNotMatch" : "Mật khẩu không khớp",
+			"Invalid" : "Giá trị không hợp lệ",
+			"UsernameTooShort" : "Tên người dùng quá ngắn"
+		}
+	  });
+	
+	  $translateProvider.preferredLanguage('en');
+	
 }])
  	.run(function($rootScope, $location, $cookieStore, $http, ngProgress) {
  		$rootScope.pageNumber = 1;
@@ -252,4 +448,21 @@ mainApp.filter('highlight', function () {
             return text;
         }
     };
+});
+
+mainApp.factory('langService', function($rootScope) {
+    var langService = {};
+    
+    langService.key = 'en';
+
+    langService.prepForBroadcast = function(msg) {
+        this.key = msg;
+        this.broadcastItem();
+    };
+
+    langService.broadcastItem = function() {
+        $rootScope.$broadcast('langBroadcast');
+    };
+
+    return langService;
 });

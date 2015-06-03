@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // edit song controller
-mainApp.controller('editSongCtrl', function($rootScope, $scope, $http, $location, $routeParams, ngProgress) {
+mainApp.controller('editSongCtrl', function($rootScope, $scope, $http, $location, $routeParams, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 
 	// get a song by id to edit
@@ -45,6 +45,11 @@ mainApp.controller('editSongCtrl', function($rootScope, $scope, $http, $location
 	$scope.back = function() {
 		$location.path('/');
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	// load data
 	$scope.load();

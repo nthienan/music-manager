@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // song controller
-mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress) {
+mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress, $translate, langService) {
 	$scope.selectedId = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -141,6 +141,10 @@ mainApp.controller('songCtrl', function($rootScope, $scope, $http, $location, $f
 	$scope.back = function() {
 		$location.path('/');
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+    });
 	
 	$scope.load();
 });

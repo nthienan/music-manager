@@ -1,7 +1,7 @@
 <!-- list song -->
 <div class="row panel panel-primary">
 	<div class="panel-heading clearfix">
-		<h3 class="panel-title pull-left">My Music</h3>
+		<h3 class="panel-title pull-left">{{'Main.MyMusic' | translate}}</h3>
 		<div class="pull-right">
 			<div class="btn-group">
 				<button type="button" class="btn btn-sm btn-success" ng-click="addSong()">  
@@ -28,24 +28,24 @@
 			<table class="table table-hover" style="margin-bottom: 0">
 				<thead>
 					<tr>
-						<th class="col-md-1">No</th>
+						<th class="col-md-1">{{'Song.No' | translate}}</th>
 						<th class="col-md-4" ng-click="reverse=!reverse;order('name', reverse)">
-							Name&nbsp;&nbsp;&nbsp;
+							{{'Song.Name' | translate}}&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="name"></span>
 						</th>
 						<th class="col-md-2" ng-click="reverse=!reverse;order('musician', reverse)">
-							Musician&nbsp;&nbsp;&nbsp;
+							{{'Song.Musician' | translate}}&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="musician"></span>
 						</th>
 						<th class="col-md-2" ng-click="reverse=!reverse;order('artist', reverse)">
-							Artist&nbsp;&nbsp;&nbsp;
+							{{'Song.Artist' | translate}}&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="artist"></span>
 						</th>
 						<th class="col-md-1" ng-click="reverse=!reverse;order('gener', reverse)">
-							Gener&nbsp;&nbsp;&nbsp;
+							{{'Song.Gener' | translate}}&nbsp;&nbsp;&nbsp;
 							<span class="glyphicon" ng-class="gener"></span>
 						</th>
-						<th class="col-md-2">Actions</th>
+						<th class="col-md-2">{{'Song.Actions' | translate}}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,17 +56,17 @@
 						</td>
 						<td ng-class="{selected: selectedSong, even: $even}">
 							<span ng-bind-html="song.name | highlight: keyword"></span>
-							<span ng-show="song.shared" class="tag">Share</span>
+							<span ng-show="song.shared" class="tag">{{'Song.Shared' | translate}}</span>
 						</td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.musician | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.artist | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}" ng-bind-html="song.gener | highlight: keyword"></td>
 						<td ng-class="{selected: selectedSong, even: $even}">
 							<button class="btn btn-default btn-xs" ng-click="playSong(song.id)">
-								<span class="glyphicon glyphicon-play"></span> Play
+								<span class="glyphicon glyphicon-play"></span> {{'Button.Play' | translate}}
 							</button>
 							<button class="btn btn-default btn-xs" ng-click="editSong(song.id)">
-								<span class="glyphicon glyphicon-pencil"></span> Edit
+								<span class="glyphicon glyphicon-pencil"></span> {{'Button.Edit' | translate}}
 							</button>
 						</td>
 					</tr>
@@ -78,16 +78,16 @@
 		<div class="col-md-6">
 			<div class="row">
 				<b>
-					Total items: {{$root.songResponse.totalElements}}<br/>
-					Total pages: {{$root.songResponse.totalPages}}<br/>
-					Show {{$root.songResponse.number * $root.songResponse.size + 1}} to {{$root.songResponse.number * $root.songResponse.size + $root.songResponse.numberOfElements}}<br />
+					{{'Main.TotalItems' | translate}}: {{$root.songResponse.totalElements}}<br/>
+					{{'Main.TotalPages' | translate}}: {{$root.songResponse.totalPages}}<br/>
+					{{'Main.Show' | translate}} {{$root.songResponse.number * $root.songResponse.size + 1}} {{'Main.To' | translate}} {{$root.songResponse.number * $root.songResponse.size + $root.songResponse.numberOfElements}}<br />
 				</b>
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="row">
 				<div class="col-md-5" style="padding: 0">
-					<span class="pull-right" style="line-height: 30px">Page size: </span>
+					<span class="pull-right" style="line-height: 30px">{{'Main.PageSize' | translate}}: </span>
 				</div>
 				<div class="col-md-3">
 					<select class="form-control input-sm" style="width: 75%" ng-model="$root.pageSize" ng-change="load()">
@@ -101,7 +101,7 @@
 					</select>
 				</div>
 				<div class="col-md-1" style="padding: 0">
-					<span class="pull-right" style="line-height: 30px">Page: </span>
+					<span class="pull-right" style="line-height: 30px">{{'Main.Page' | translate}}: </span>
 				</div>
 				<div class="col-md-3">
 					<input class="form-control input-sm" style="width: 50%" ng-model="$root.pageNumber" ng-change="load()"/>

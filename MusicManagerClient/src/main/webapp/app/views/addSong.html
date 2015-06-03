@@ -1,47 +1,47 @@
 <div class="row panel panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title">Add new song</h3>
+		<h3 class="panel-title">{{'Song.AddNewSong' | translate}}</h3>
 	</div>
 	<div class="panel-body">
 		<form class="form-horizontal" role="form" enctype="multipart/form-data" name="formUpload" ng-submit="create()">
 			<div class="form-group">
-				<label for="name" class="col-md-2 control-label">Name</label>
+				<label for="name" class="col-md-2 control-label">{{'Song.Name' | translate}}</label>
 				<div class="col-md-10">
 					<input type="text" class="form-control" id="name" name="name" required
-						ng-model="formData.name" ng-trim="true" placeholder="Enter Name" />
+						ng-model="formData.name" ng-trim="true" placeholder="{{'Song.Name' | translate}}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="gener" class="col-md-2 control-label">Gener</label>
+				<label for="gener" class="col-md-2 control-label">{{'Song.Gener' | translate}}</label>
 				<div class="col-md-10"> 
 					<input type="text" class="form-control" id="gener" name="gener" required
-						ng-model="formData.gener" ng-trim="true" placeholder="Enter Gener" />
+						ng-model="formData.gener" ng-trim="true" placeholder="{{'Song.Gener' | translate}}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="artist" class="col-md-2 control-label">Artist</label>
+				<label for="artist" class="col-md-2 control-label">{{'Song.Artist' | translate}}</label>
 				<div class="col-md-10">
 					<input type="text" class="form-control" id="artist" name="artist" required
-						ng-model="formData.artist" ng-trim="true" placeholder="Enter Artist" />
+						ng-model="formData.artist" ng-trim="true" placeholder="{{'Song.Artist' | translate}}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="musician" class="col-md-2 control-label">Musician</label>
+				<label for="musician" class="col-md-2 control-label">{{'Song.Musician' | translate}}</label>
 				<div class="col-md-10"> 
 					<input type="text" class="form-control" id="musician" name="musician" required
-						ng-model="formData.musician" ng-trim="true" placeholder="Enter Musician" />
+						ng-model="formData.musician" ng-trim="true" placeholder="{{'Song.Musician' | translate}}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="share" class="col-md-2 control-label">Share: </label>
+				<label for="share" class="col-md-2 control-label">{{'Song.Shared' | translate}} </label>
 				<div class="col-md-10 checkbox">
 					<label>
-						<input type="checkbox" ng-model="formData.shared" id="share" name="share"> Share with other users
+						<input type="checkbox" ng-model="formData.shared" id="share" name="share"> {{'Song.Message.Shared' | translate}}
 					</label>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="file" class="col-md-2 control-label">File: </label>
+				<label for="file" class="col-md-2 control-label">{{'Song.File' | translate}} </label>
 				<div class="col-sm-10">
 					<div class="checkbox">
 						<input type="file" name="file" ng-model="formData.file"/>
@@ -51,10 +51,10 @@
 			<div class="form-group">
 				<div class="col-md-offset-2 col-md-10">
 					<button type="submit" class="btn btn-primary">
-						<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Save
+						<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;{{'Button.Save' | translate}}
 					</button>
 					<button type="button" class="btn btn-success" ng-click="back()">
-						<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;Back
+						<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;{{'Button.Back' | translate}}
 					</button>
 				</div>
 			</div>

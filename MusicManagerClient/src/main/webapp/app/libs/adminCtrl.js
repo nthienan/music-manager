@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // admin controller
-mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress) {
+mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $filter, ngProgress, $translate, langService) {
 	$scope.selectedId = [];
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 	
@@ -77,6 +77,11 @@ mainApp.controller('adminCtrl', function($rootScope, $scope, $http, $location, $
 	$scope.addUser = function() {
 		$location.path('/admin/add-user');
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	$scope.load();
 });

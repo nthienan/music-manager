@@ -2,7 +2,7 @@
 	<div class="col-md-12 col-sm-12">
 		<div class="row panel panel-primary">
 			<div class="panel-heading clearfix">
-				<h3 class="panel-title pull-left">Edit User</h3>
+				<h3 class="panel-title pull-left">{{'Account.EditUser' | translate}}</h3>
 			</div>
 			<div class="panel-body" style="padding: 0">
 				<div class="table-responsive">
@@ -14,48 +14,48 @@
 										<form id="updateAccountForm" class="form-horizontal" name="updateAccountForm" role="form" ng-submit="updateUser()">
 											<div class="form-group has-feedback" ng-class="{'has-success' : updateAccountForm.fullname.$valid, 'has-error' : updateAccountForm.fullname.$invalid && updateAccountForm.fullname.$dirty}"
 												style="margin: 0 0 15px 0">
-												<label for="fullname" class="col-md-2 control-label">Name</label>
+												<label for="fullname" class="col-md-2 control-label">{{'Account.Name' | translate}}</label>
 												<div class="col-md-10">
-													<input type="text" class="form-control" name="fullname" placeholder="Full Name"
+													<input type="text" class="form-control" name="fullname" placeholder="{{'Account.Name' | translate}}"
 														ng-model="editUser.fullName" required>
-													<p ng-show="updateAccountForm.fullname.$error.required && updateAccountForm.fullname.$dirty" class="help-block error-text">Full name is required.</p>
+													<p ng-show="updateAccountForm.fullname.$error.required && updateAccountForm.fullname.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
 												</div>
 											</div>
 											
 											<div class="form-group has-feedback" ng-class="{'has-success' : updateAccountForm.email.$valid, 'has-error' : updateAccountForm.email.$invalid && updateAccountForm.email.$dirty}"
 												style="margin: 0 0 15px 0">
-												<label for="email" class="col-md-2 control-label">Email</label>
+												<label for="email" class="col-md-2 control-label">{{'Account.Email' | translate}}</label>
 												<div class="col-md-10">
 													<input type="email" class="form-control" name="email" placeholder="Email Adderss"
 														ng-model="editUser.email" required>
-													<p ng-show="updateAccountForm.email.$error.required && updateAccountForm.email.$dirty" class="help-block error-text">Email is required.</p>
-													<p ng-show="updateAccountForm.email.$error.email" class="help-block error-text">Email address invalid.</p>
+													<p ng-show="updateAccountForm.email.$error.required && updateAccountForm.email.$dirty" class="help-block error-text">{{'Message.Required' | translate}}</p>
+													<p ng-show="updateAccountForm.email.$error.email" class="help-block error-text">{{'Message.Invalid' | translate}}</p>
 												</div>
 											</div>
 											
 											<div class="form-group" style="margin: 0 0 15px 0">
 												<div class="col-md-offset-2 col-md-10">
-													<button type="submit" class="btn btn-primary" ng-disabled="updateAccountForm.$invalid">Update</button>
-													<button type="button" class="btn btn-success" ng-click="showList()">Cancel</button>
+													<button type="submit" class="btn btn-primary" ng-disabled="updateAccountForm.$invalid">{{'Button.Update' | translate}}</button>
+													<button type="button" class="btn btn-success" ng-click="showList()">{{'Button.Cancel' | translate}}</button>
 												</div>
 											</div>
 										</form>
 									</td>
 								</tr>
 								<tr>
-									<td class="col-md-3 col-sm-3">Username:</td>
+									<td class="col-md-3 col-sm-3">{{'Account.Username' | translate}}</td>
 									<td class="col-md-9 col-sm-9">
 										{{editUser.username}}&nbsp;&nbsp;
 										<span ng-hide="editUser.active" class="tag">
-											<i class="glyphicon glyphicon-ban-circle"></i>&nbsp;&nbsp;Not active
+											<i class="glyphicon glyphicon-ban-circle"></i>&nbsp;&nbsp;{{'Account.NotActive' | translate}}
 										</span>
 										<span ng-show="editUser.active" class="tag" style="background-color: #5cb85c">
-											<i class="glyphicon glyphicon-ok-circle"></i>&nbsp;&nbsp;Activated
+											<i class="glyphicon glyphicon-ok-circle"></i>&nbsp;&nbsp;{{'Account.Actived' | translate}}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td>Role:</td>
+									<td>{{'Account.Role' | translate}}:</td>
 									<td>
 										<label class="checkbox-inline" ng-repeat="r in editUser.roles">
 											<input type="checkbox" id="{{r}}" value="{{r}}" checked="hasRole(r)" disabled> {{r}}
@@ -64,9 +64,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td>Password:</td>
+									<td>{{'Account.Password' | translate}}:</td>
 									<td>
-										<button type="button" class="btn btn-link" style="padding: 0" disabled>Reset password</button>
+										<button type="button" class="btn btn-link" style="padding: 0" disabled>{{'Account.Button.ResetPass' | translate}}</button>
 									</td>
 								</tr>
 							</tbody>
@@ -79,24 +79,24 @@
 							</div>
 							<div style="display: none">
 								<span class="btn-file">
-									<span class="btn btn-success btn-sm fileinput-new" style="boder-color: none">Select image</span>
-									<span class="btn btn-success btn-sm fileinput-exists">Change</span>
+									<span class="btn btn-success btn-sm fileinput-new" style="boder-color: none">{{'Account.Button.SelectAvatar' | translate}}</span>
+									<span class="btn btn-success btn-sm fileinput-exists">{{'Account.Button.ChangeAvater' | translate}}</span>
 									<input type="file" name="file" required>
 								</span>
-								<button class="btn btn-danger btn-sm fileinput-exists" data-dismiss="fileinput">Remove</button>
+								<button class="btn btn-danger btn-sm fileinput-exists" data-dismiss="fileinput">{{'Account.Button.RemoveAvatar' | translate}}</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="panel-footer" style="background: white">
-				<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 5px" ng-click="deleteOne(editUser.username)"
-					ng-confirm-click="Are you sure you want to remove user {{editUser.username}}?">
-					<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;&nbsp;Delete account
+				<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 5px" ng-click="deleteOne(editUser.username)">
+				<!-- ng-confirm-click="Are you sure you want to remove user {{editUser.username}}?" -->
+					<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;&nbsp;{{'Account.Button.DeleteAccount' | translate}}
 				</button>
 				
 				<button type="button" class="btn btn-success" ng-click="showList()">
-					<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;Back
+					<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;&nbsp;{{'Button.Back' | translate}}
 				</button>
 			</div>
 		</div>

@@ -2,7 +2,7 @@
  * @author nthienan
  */
 // active controller
-mainApp.controller('activeCtrl', function($scope, $rootScope, $http, $location, $routeParams, ngProgress) {
+mainApp.controller('activeCtrl', function($scope, $rootScope, $http, $location, $routeParams, ngProgress, $translate, langService) {
 	$http.defaults.headers.post['Content-Type'] = 'application/json';
 
 	$scope.active = function() {
@@ -20,6 +20,11 @@ mainApp.controller('activeCtrl', function($scope, $rootScope, $http, $location, 
 				ngProgress.complete();
 			});
 	};
+	
+	$scope.$on('langBroadcast', function() {
+		$translate.use(langService.key);
+		$scope.lang = langService.key;
+    });
 	
 	$scope.active();
 });
